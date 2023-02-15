@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 const StyledNotFound = styled(Box)({
-    height: '100vh',
+    height: '100%',
     padding: '1rem',
     display: 'flex',
     textAlign: 'center',
