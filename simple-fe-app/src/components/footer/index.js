@@ -34,7 +34,7 @@ const Footer = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position='static' sx={{ background: '#121212' }}>
+            <AppBar position='static'>
                 <Toolbar sx={{ justifyContent: 'center', color: 'white' }}>
                     <StyledFooterLinks
                         dangerouslySetInnerHTML={createMarkup(asset)}
