@@ -4,12 +4,12 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getProductModel } from '../../services/ocapiService';
 
 import styled from '@mui/material/styles/styled';
-import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
 import Progress from '../progress';
 import ProductVariant from './product-variant';
 
-const StyledProductDetailsWrapper = styled(Box)({
+const StyledProductDetailsWrapper = styled(Container)({
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
