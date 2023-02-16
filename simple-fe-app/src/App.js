@@ -1,3 +1,5 @@
+import ProductProvider from './context/ProductContext';
+
 import AppRoutes from './routes/routes';
 
 import Header from './components/header';
@@ -8,9 +10,11 @@ function App() {
     return (
         <>
             <Header />
-            <Content>
-                <AppRoutes />
-            </Content>
+            <ProductProvider>
+                <Content>
+                    <AppRoutes />
+                </Content>
+            </ProductProvider>
             <Footer />
         </>
     );
