@@ -1,5 +1,8 @@
 import ocapiConfig from '../config/ocapi.json';
 import * as requester from './requester';
+
+import jwt_decode from 'jwt-decode';
+
 import productModel from '../models/product';
 
 /**
@@ -7,6 +10,17 @@ import productModel from '../models/product';
  * @returns {Promise} Bearer token
  */
 export const getAccessToken = async () => {
+    const currToken = localStorage.getItem('token');
+
+    let hasValidToken = false;
+    if (currToken != 'null') {
+        const token = jwt_decode(currToken);
+        const exp = Number(token.exp + '000');
+
+        const now = Date.now();
+        hasValidToken = now <= exp;
+    }
+
     const url = `${ocapiConfig.HOST}/s/Sites-${ocapiConfig.SITES.REFARCH}-Site/dw/shop/${ocapiConfig.OCAPI_VERSION}/customers/auth`;
 
     const request = {
@@ -17,13 +31,22 @@ export const getAccessToken = async () => {
         },
     };
 
-    const body = { type: 'guest' };
+    if (hasValidToken) {
+        request.headers.Authorization = currToken;
+    }
+
+    const type = hasValidToken ? 'refresh' : 'guest';
+
+    const body = { type };
 
     request.body = JSON.stringify(body);
 
     try {
         const res = await fetch(url, request);
         const token = res.headers.get('authorization');
+
+        localStorage.setItem('token', token);
+
         return token;
     } catch (e) {
         console.log(e);
