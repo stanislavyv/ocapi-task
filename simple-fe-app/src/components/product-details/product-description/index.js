@@ -11,10 +11,6 @@ const StyledProductDescription = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up('xs')]: {
         flexDirection: 'column',
         flexGrow: 2,
-
-        '& h5': {
-            width: 'auto',
-        },
     },
 
     [theme.breakpoints.up('sm')]: {
@@ -25,13 +21,13 @@ const StyledProductDescription = styled(Box)(({ theme }) => ({
         flexDirection: 'row',
 
         '& h5': {
-            width: '9rem',
+            marginRight: '1rem',
         },
     },
 }));
 
 const ProductDescription = () => {
-    const product = useProduct();
+    const { product } = useProduct();
 
     return (
         <StyledProductDescription>

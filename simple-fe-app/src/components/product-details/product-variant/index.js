@@ -11,7 +11,7 @@ import ProductDescription from '../product-description';
 import ProductPrice from '../product-price';
 
 const ProductVariant = () => {
-    const product = useProduct();
+    const { product } = useProduct();
 
     return (
         <ProductContainer>

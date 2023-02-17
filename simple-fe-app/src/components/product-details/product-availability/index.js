@@ -1,3 +1,5 @@
+import { useProduct } from '../../../context/ProductContext';
+
 import styled from '@mui/material/styles/styled';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,29 +9,23 @@ const StyledProductAvailability = styled(Box)(({ theme }) => ({
     flexWrap: 'nowrap',
     flexGrow: 1,
 
-    [theme.breakpoints.up('xs')]: {
-        flexDirection: 'column',
-
-        '& h5': {
-            width: 'auto',
-        },
-    },
-
     [theme.breakpoints.up('sm')]: {
-        flexDirection: 'row',
-
         '& h5': {
-            width: '8.5rem',
+            marginRight: '1rem',
         },
     },
 }));
 
 const ProductAvailability = () => {
+    const { product } = useProduct();
+
+    const color = product.isAvailable ? 'green' : 'red';
+
     return (
         <StyledProductAvailability>
             <Typography variant='h5'>Availability:</Typography>
-            <Typography variant={'h6'}>
-                Select quantity for availability
+            <Typography variant={'h6'} color={color}>
+                {product.isAvailable ? 'Available' : 'Out of Stock'}
             </Typography>
         </StyledProductAvailability>
     );

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCart } from '../../context/CartContext';
 
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
@@ -6,13 +6,13 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import { Tooltip } from '@mui/material';
 
 const MiniCart = () => {
-    const [numberOfProducts, setNumberOfProducts] = useState(4);
+    const { getNumberOfItems } = useCart();
 
     return (
         <Tooltip title='Checkout'>
-            <IconButton aria-label='cart' sx={{ color: 'white' }}>
+            <IconButton aria-label='cart'>
                 <Badge
-                    badgeContent={numberOfProducts}
+                    badgeContent={getNumberOfItems()}
                     color='primary'
                     overlap='circular'
                 >

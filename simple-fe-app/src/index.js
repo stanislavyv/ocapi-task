@@ -9,15 +9,17 @@ import App from './app';
 import createTheme from './utils/createTheme';
 import { ThemeProvider } from '@mui/material';
 
+import CartProvider from './context/CartContext';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <Router>
-            <CssBaseline />
-            <GlobalStyles />
-            <ThemeProvider theme={createTheme()}>
+    <Router>
+        <CssBaseline />
+        <GlobalStyles />
+        <ThemeProvider theme={createTheme()}>
+            <CartProvider>
                 <App />
-            </ThemeProvider>
-        </Router>
-    </React.StrictMode>
+            </CartProvider>
+        </ThemeProvider>
+    </Router>
 );

@@ -14,7 +14,7 @@ const StyledProductDetailsWrapper = styled(Box)({
 });
 
 const ProductDetails = () => {
-    const product = useProduct();
+    const { product } = useProduct();
 
     return (
         <StyledProductDetailsWrapper>

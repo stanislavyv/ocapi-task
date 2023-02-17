@@ -3,7 +3,7 @@ import { useProduct } from '../../../context/ProductContext';
 import Typography from '@mui/material/Typography';
 
 const ProductNumber = () => {
-    const product = useProduct();
+    const { product } = useProduct();
 
     return (
         <Typography

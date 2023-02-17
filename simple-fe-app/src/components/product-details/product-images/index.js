@@ -24,7 +24,7 @@ const StyledImgWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const ProductImages = () => {
-    const product = useProduct();
+    const { product } = useProduct();
 
     return (
         <StyledImgWrapper>

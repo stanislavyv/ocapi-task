@@ -25,12 +25,12 @@ const StyledProductPriceWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const ProductPrice = () => {
-    const product = useProduct();
+    const { product } = useProduct();
 
     return (
         <StyledProductPriceWrapper>
             <Box display={'flex'} flexGrow={{ xs: 2, md: 1 }}>
-                <Typography variant='h5' width={'5rem'}>
+                <Typography variant='h5' mr={'1rem'}>
                     Price:{' '}
                 </Typography>
                 <Typography variant='h5'>
