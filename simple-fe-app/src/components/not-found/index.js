@@ -1,8 +1,8 @@
 import styled from '@mui/material/styles/styled';
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-const StyledNotFound = styled(Container)({
+const StyledNotFound = styled(Box)({
     height: '100%',
     padding: '1rem',
     display: 'flex',

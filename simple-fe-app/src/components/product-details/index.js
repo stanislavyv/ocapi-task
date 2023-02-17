@@ -1,15 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-
-import { getProductModel } from '../../services/ocapiService';
+import { useProduct } from '../../context/ProductContext';
 
 import styled from '@mui/material/styles/styled';
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 
 import Progress from '../progress';
 import ProductVariant from './product-variant';
 
-const StyledProductDetailsWrapper = styled(Container)({
+const StyledProductDetailsWrapper = styled(Box)({
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
@@ -17,21 +14,7 @@ const StyledProductDetailsWrapper = styled(Container)({
 });
 
 const ProductDetails = () => {
-    const [product, setProduct] = useState(null);
-    const [searchParams] = useSearchParams();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (searchParams.has('pid')) {
-            getProductModel(searchParams.get('pid'))
-                .then(setProduct)
-                .catch(() => {
-                    navigate('/not-found');
-                });
-        } else {
-            navigate('/not-found');
-        }
-    }, [searchParams]);
+    const product = useProduct();
 
     return (
         <StyledProductDetailsWrapper>
