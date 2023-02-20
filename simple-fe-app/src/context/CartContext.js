@@ -38,11 +38,18 @@ const CartProvider = ({ children }) => {
         }, 0);
     };
 
+    const getSum = () => {
+        return cart.items.reduce((acc, x) => {
+            return acc + x.buyQty * x.price;
+        }, 0);
+    };
+
     const value = useMemo(
         () => ({
             items: cart.items,
             addToCart,
             getNumberOfItems,
+            getSum,
         }),
         [cart]
     );
