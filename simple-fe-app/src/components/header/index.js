@@ -7,7 +7,7 @@ import MiniCart from '../mini-cart';
 export default function Header() {
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position='static'>
+            <AppBar position='static' color='secondary'>
                 <Toolbar sx={{ justifyContent: 'space-between' }}>
                     <img
                         height='40px'

@@ -34,7 +34,10 @@ const MiniCart = () => {
                             color='primary'
                             overlap='circular'
                         >
-                            <ShoppingBagIcon fontSize='large' />
+                            <ShoppingBagIcon
+                                fontSize='large'
+                                sx={{ color: 'white' }}
+                            />
                         </Badge>
                     </IconButton>
                 </span>
