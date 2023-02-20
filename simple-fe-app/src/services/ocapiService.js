@@ -6,20 +6,31 @@ import jwt_decode from 'jwt-decode';
 import productModel from '../models/product';
 
 /**
+ * Checks if a JWT token exists and if it's expired
+ * @param {Object} token
+ * @returns {Boolean}
+ */
+export const isTokenValid = (token) => {
+    let hasValidToken = false;
+    if (token && token != 'null') {
+        const decoded = jwt_decode(token);
+        const exp = Number(decoded.exp + '000');
+
+        const now = Date.now();
+        hasValidToken = now <= exp;
+    }
+
+    return hasValidToken;
+};
+
+/**
  * Gets a JWT from Salesforce for guest customers
  * @returns {Promise} Bearer token
  */
 export const getAccessToken = async () => {
     const currToken = localStorage.getItem('token');
 
-    let hasValidToken = false;
-    if (currToken != 'null') {
-        const token = jwt_decode(currToken);
-        const exp = Number(token.exp + '000');
-
-        const now = Date.now();
-        hasValidToken = now <= exp;
-    }
+    const hasValidToken = isTokenValid(currToken);
 
     const url = `${ocapiConfig.HOST}/s/Sites-${ocapiConfig.SITES.REFARCH}-Site/dw/shop/${ocapiConfig.OCAPI_VERSION}/customers/auth`;
 
@@ -121,7 +132,7 @@ export const getApiProduct = async (pid, endpoint = '') => {
  * @returns {Promise<Object>} product model
  * @throws {Error} product not found error
  */
-export const getProductModel = async (pid) => {
+export const getProductModel = async (pid, quantity = 1) => {
     const apiProduct = await getApiProduct(pid);
-    return productModel(apiProduct);
+    return productModel(apiProduct, quantity);
 };

@@ -4,17 +4,15 @@ import styled from '@mui/material/styles/styled';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-const StyledProductAvailability = styled(Box)(({ theme }) => ({
+const StyledProductAvailability = styled(Box)({
     display: 'flex',
     flexWrap: 'nowrap',
     flexGrow: 1,
 
-    [theme.breakpoints.up('sm')]: {
-        '& h5': {
-            marginRight: '1rem',
-        },
+    '& h5': {
+        marginRight: '1rem',
     },
-}));
+});
 
 const ProductAvailability = () => {
     const { product } = useProduct();
