@@ -1,17 +1,20 @@
-import React, { useReducer, useContext, useMemo } from 'react';
+import React, { useReducer, useContext, useMemo, useEffect } from 'react';
+import { getBasketItems, addToBasket } from '../services/basketService';
 
 const CartContext = React.createContext('');
 CartContext.displayName = 'CartContext';
 
 const reducer = (state, { type, payload }) => {
     switch (type) {
+        case 'setItems':
+            return { ...state, items: payload };
         case 'add':
             const product = state.items.find((p) => p.id === payload.id);
 
             if (product) {
                 const index = state.items.indexOf(product);
                 const newItems = [...state.items];
-                newItems[index].buyQty = payload.buyQty;
+                newItems[index].buyQty += payload.buyQty;
 
                 return { ...state, items: newItems };
             } else {
@@ -28,8 +31,18 @@ const reducer = (state, { type, payload }) => {
 const CartProvider = ({ children }) => {
     const [cart, dispatch] = useReducer(reducer, { items: [] });
 
+    useEffect(() => {
+        getBasketItems().then((res) => {
+            if (res.length > 0) {
+                dispatch({ type: 'setItems', payload: res });
+            }
+        });
+    }, []);
+
     const addToCart = (product) => {
-        dispatch({ type: 'add', payload: product });
+        addToBasket(product.id, product.buyQty).then(() => {
+            dispatch({ type: 'add', payload: product });
+        });
     };
 
     const getNumberOfItems = () => {

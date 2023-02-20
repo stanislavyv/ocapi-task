@@ -8,11 +8,12 @@ import productType from './decorators/productType';
  * @param {Object} apiProduct
  * @returns {Promise<Object>} product model
  */
-const getProductData = async (apiProduct) => {
+const getProductData = async (apiProduct, quantity) => {
     const product = {};
     product.id = apiProduct.id;
     product.name = apiProduct.name;
     product.description = apiProduct.short_description;
+    product.buyQty = quantity;
 
     await productAvailability(product, product.id);
     await productImages(product, product.id);

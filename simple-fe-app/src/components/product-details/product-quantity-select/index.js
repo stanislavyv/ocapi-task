@@ -23,8 +23,10 @@ export default function ProductQuantitySelect() {
     const { product, setAvailability, setBuyQty } = useProduct();
 
     const handleChange = (e) => {
-        setBuyQty(e.target.value);
-        setAvailability(e.target.value);
+        const qty = Number(e.target.value);
+
+        setBuyQty(qty);
+        setAvailability(qty);
     };
 
     return (
