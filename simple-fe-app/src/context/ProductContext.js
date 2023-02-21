@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useReducer, useMemo } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 
 import { getProductModel } from '../services/ocapiService';
 
@@ -22,6 +22,7 @@ const ProductProvider = ({ children }) => {
     const [product, dispatch] = useReducer(reducer, null);
 
     const [searchParams] = useSearchParams();
+    const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,7 +41,7 @@ const ProductProvider = ({ children }) => {
                 .catch(() => {
                     navigate('/not-found');
                 });
-        } else {
+        } else if (!location.pathname.includes('/checkout')) {
             navigate('/not-found');
         }
     }, [searchParams]);

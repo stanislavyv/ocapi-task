@@ -8,9 +8,12 @@ import StepLabel from '@mui/material/StepLabel';
 import ShippingForm from '../forms/shipping-form';
 
 const steps = [
-    { label: 'Shipping Address', component: <ShippingForm /> },
-    { label: 'Billing Address', component: <></> },
-    { label: 'Payment Details', component: <></> },
+    {
+        label: 'Shipping Address',
+        component: (handleNext) => <ShippingForm handleNext={handleNext} />,
+    },
+    { label: 'Billing Address', component: (handleNext) => <></> },
+    { label: 'Payment Details', component: (handleNext) => <></> },
 ];
 
 const Checkout = () => {
@@ -21,7 +24,7 @@ const Checkout = () => {
     };
 
     return (
-        <Box sx={{ width: '80%', alignSelf: 'flex-start', my: 2 }}>
+        <Box sx={{ width: '80%', alignSelf: 'flex-start', my: 3 }}>
             <Stepper activeStep={activeStep} sx={{ mb: 2 }}>
                 {steps.map((step) => {
                     return (
@@ -31,7 +34,7 @@ const Checkout = () => {
                     );
                 })}
             </Stepper>
-            <>{steps[activeStep].component}</>
+            <>{steps[activeStep].component(handleNext)}</>
         </Box>
     );
 };

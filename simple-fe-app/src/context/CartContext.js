@@ -1,5 +1,5 @@
 import React, { useReducer, useContext, useMemo, useEffect } from 'react';
-import { getBasketItems, addToBasket } from '../services/basketService';
+import { getBasketItems, addToBasket } from '../services/orderService';
 
 const CartContext = React.createContext('');
 CartContext.displayName = 'CartContext';
