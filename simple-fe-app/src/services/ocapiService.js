@@ -6,6 +6,23 @@ import jwt_decode from 'jwt-decode';
 import productModel from '../models/product';
 
 /**
+ * Gets the id of the current customer
+ * @returns {String | null}
+ */
+export const getCustomerId = () => {
+    let result = null;
+    const token = localStorage.getItem('token');
+
+    if (token) {
+        const decoded = jwt_decode(token);
+
+        result = JSON.parse(decoded.sub).customer_info.customer_id;
+    }
+
+    return result;
+};
+
+/**
  * Checks if a JWT token exists and if it's expired
  * @param {Object} token
  * @returns {Boolean}
