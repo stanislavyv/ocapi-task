@@ -5,15 +5,15 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 
-import ShippingForm from '../forms/shipping-form';
+import BillingForm from '../forms/billing-form';
 
 const steps = [
     {
-        label: 'Shipping Address',
-        component: (handleNext) => <ShippingForm handleNext={handleNext} />,
+        label: 'Billing Address',
+        component: (handleNext) => <BillingForm handleNext={handleNext} />,
     },
-    { label: 'Billing Address', component: (handleNext) => <></> },
     { label: 'Payment Details', component: (handleNext) => <></> },
+    { label: 'Order Confirmation', component: () => <></> },
 ];
 
 const Checkout = () => {

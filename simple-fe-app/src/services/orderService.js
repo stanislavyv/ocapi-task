@@ -111,27 +111,44 @@ export const addToBasket = async (pid, quantity) => {
 };
 
 /**
- * Adds shipping method and shipping address to the current basket
+ * Adds a new shipping method to the default shipment
+ * @param {String} shipmentId
+ * @param {String} shippingMethodId
+ * @returns {Promise<Object>}
+ */
+const addShippingMethod = async (shipmentId, shippingMethodId) => {
+    const basketId = localStorage.getItem('basket_id');
+
+    return await requester.update(
+        { id: shippingMethodId },
+        `/baskets/${basketId}/shipments/${shipmentId}/shipping_method`
+    );
+};
+
+/**
+ * Adds shipping method and billing/ shipping address to the current basket
  * @param {Object} inputBody
  * @returns {Promise<Object>} response
  */
-export const addShipping = async (inputBody) => {
+export const addBillingAddress = async (inputBody) => {
     await getBasket();
     const basketId = localStorage.getItem('basket_id');
 
     const body = {
-        shipping_address: {
-            first_name: inputBody.firstName,
-            last_name: inputBody.lastName,
-            address1: inputBody.address,
-            city: inputBody.city,
-            country_code: inputBody.country,
-        },
-        shipping_method: {
-            id: inputBody.selectedMethod,
-        },
+        first_name: inputBody.firstName,
+        last_name: inputBody.lastName,
+        address1: inputBody.address,
+        city: inputBody.city,
+        country_code: inputBody.country,
     };
 
-    const result = await requester.post(body, `/baskets/${basketId}/shipments`);
-    return result;
+    const billingResult = await requester.update(
+        body,
+        `/baskets/${basketId}/billing_address?use_as_shipping=true`
+    );
+
+    const shipmentId = billingResult.shipments[0].shipment_id;
+    await addShippingMethod(shipmentId, inputBody.selectedMethod);
+
+    return billingResult;
 };

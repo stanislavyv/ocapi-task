@@ -58,7 +58,7 @@ export const post = async function (body, endpoint) {
  * @param {Object} body
  * @returns {Promise}
  */
-export const update = async function (endpoint, body) {
+export const update = async function (body, endpoint) {
     return makeRequest('PUT', endpoint, body);
 };
 
@@ -68,7 +68,7 @@ export const update = async function (endpoint, body) {
  * @param {Object} body
  * @returns {Promise}
  */
-export const patch = async function (endpoint, body) {
+export const patch = async function (body, endpoint) {
     return makeRequest('PATCH', endpoint, body);
 };
 

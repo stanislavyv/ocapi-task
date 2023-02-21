@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import { Formik, Form, Field } from 'formik';
 import { TextField, RadioGroup } from 'formik-mui';
 
-import { addShipping } from '../../../services/orderService';
+import { addBillingAddress } from '../../../services/orderService';
 import * as formValidator from '../../../utils/helpers/formHelpers';
 
 const countries = [
@@ -42,7 +42,7 @@ const validateForm = (values) => {
     return errors;
 };
 
-const ShippingForm = ({ handleNext }) => {
+const BillingForm = ({ handleNext }) => {
     const initialValues = {
         firstName: '',
         lastName: '',
@@ -53,7 +53,7 @@ const ShippingForm = ({ handleNext }) => {
     };
 
     const handleSubmit = (values, setSubmitting) => {
-        addShipping(values)
+        addBillingAddress(values)
             .then((res) => {
                 if (!res.fault) {
                     handleNext();
@@ -216,4 +216,4 @@ const ShippingForm = ({ handleNext }) => {
     );
 };
 
-export default ShippingForm;
+export default BillingForm;
