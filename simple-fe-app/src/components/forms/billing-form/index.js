@@ -11,6 +11,7 @@ import { TextField, RadioGroup } from 'formik-mui';
 
 import { addBillingAddress } from '../../../services/orderService';
 import * as formValidator from '../../../utils/helpers/formHelpers';
+import { notifyError } from '../../../utils/toast';
 
 const countries = [
     {
@@ -59,7 +60,7 @@ const BillingForm = ({ handleNext }) => {
                     handleNext();
                 }
             })
-            .catch(console.log)
+            .catch(notifyError)
             .finally(() => setSubmitting(false));
     };
 

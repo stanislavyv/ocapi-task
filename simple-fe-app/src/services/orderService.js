@@ -58,6 +58,9 @@ const getBasket = async () => {
     if (basketId && hasValidToken && hasValidBasket) {
         try {
             basket = await requester.get(`/baskets/${basketId}`);
+            if (basket.fault) {
+                throw new Error();
+            }
         } catch (e) {
             basket = await createNewBasket();
         }
@@ -95,6 +98,7 @@ export const getBasketItems = async () => {
 /**
  * Adds a new item in the current basket
  * @returns {Promise<void>}
+ * @throws {Error}
  */
 export const addToBasket = async (pid, quantity) => {
     await getBasket();
@@ -102,12 +106,12 @@ export const addToBasket = async (pid, quantity) => {
 
     const body = [{ product_id: pid, quantity }];
 
-    try {
-        const res = await requester.post(body, `/baskets/${basketId}/items`);
-        return res;
-    } catch (e) {
-        console.log(e);
+    const res = await requester.post(body, `/baskets/${basketId}/items`);
+    if (res.fault) {
+        throw new Error(res.fault.message);
     }
+
+    return res;
 };
 
 /**
@@ -129,6 +133,7 @@ const addShippingMethod = async (shipmentId, shippingMethodId) => {
  * Adds shipping method and billing/ shipping address to the current basket
  * @param {Object} inputBody
  * @returns {Promise<Object>} response
+ * @throws {Error}
  */
 export const addBillingAddress = async (inputBody) => {
     await getBasket();
@@ -147,6 +152,10 @@ export const addBillingAddress = async (inputBody) => {
         `/baskets/${basketId}/billing_address?use_as_shipping=true`
     );
 
+    if (billingResult.fault) {
+        throw new Error(billingResult.fault.message);
+    }
+
     const shipmentId = billingResult.shipments[0].shipment_id;
     await addShippingMethod(shipmentId, inputBody.selectedMethod);
 
@@ -157,6 +166,7 @@ export const addBillingAddress = async (inputBody) => {
  * Adds payment instrument to the current basket
  * @param {Object} inputBody
  * @returns {Promise<Object>} response
+ * @throws {Error}
  */
 const addPayment = async (inputBody) => {
     // we don't explicitly update the basket here because
@@ -179,6 +189,10 @@ const addPayment = async (inputBody) => {
         `/baskets/${basketId}/payment_instruments`
     );
 
+    if (paymentResult.fault) {
+        throw new Error(paymentResult.fault.message);
+    }
+
     return paymentResult;
 };
 
@@ -186,6 +200,7 @@ const addPayment = async (inputBody) => {
  * Creates a new order in SFCC
  * @param {Object} inputBody
  * @returns {Promise<String>} Order Number
+ * @throws {Error}
  */
 export const createOrder = async (inputBody) => {
     await getBasket();
@@ -197,6 +212,10 @@ export const createOrder = async (inputBody) => {
         basket_id: basketId,
     };
     const orderResult = await requester.post(body, '/orders');
+
+    if (orderResult.fault) {
+        throw new Error(orderResult.fault.message);
+    }
 
     return orderResult.order_no;
 };

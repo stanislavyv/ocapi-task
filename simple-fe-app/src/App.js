@@ -6,6 +6,9 @@ import Header from './components/header';
 import Content from './components/content';
 import Footer from './components/footer';
 
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+
 function App() {
     return (
         <>
@@ -16,6 +19,11 @@ function App() {
                 </Content>
             </ProductProvider>
             <Footer />
+            <ToastContainer
+                limit={1}
+                position='bottom-right'
+                closeOnClick={true}
+            />
         </>
     );
 }

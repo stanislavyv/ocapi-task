@@ -13,6 +13,7 @@ import { TextField, RadioGroup } from 'formik-mui';
 
 import * as formValidator from '../../../utils/helpers/formHelpers';
 import { createOrder } from '../../../services/orderService';
+import { notifyError } from '../../../utils/toast';
 
 const validateForm = (values) => {
     const errors = {};
@@ -64,6 +65,7 @@ const PaymentForm = ({ handleNext, setOrderId }) => {
                 setOrderId(order_no);
                 handleNext();
             })
+            .catch(notifyError)
             .finally(() => setSubmitting(false));
     };
 

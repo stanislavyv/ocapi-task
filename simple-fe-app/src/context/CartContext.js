@@ -1,5 +1,6 @@
 import React, { useReducer, useContext, useMemo, useEffect } from 'react';
 import { getBasketItems, addToBasket } from '../services/orderService';
+import { notifyError } from '../utils/toast';
 
 const CartContext = React.createContext('');
 CartContext.displayName = 'CartContext';
@@ -40,9 +41,11 @@ const CartProvider = ({ children }) => {
     }, []);
 
     const addToCart = (product) => {
-        addToBasket(product.id, product.buyQty).then(() => {
-            dispatch({ type: 'add', payload: product });
-        });
+        addToBasket(product.id, product.buyQty)
+            .then(() => {
+                dispatch({ type: 'add', payload: product });
+            })
+            .catch(notifyError);
     };
 
     const getNumberOfItems = () => {
