@@ -152,3 +152,51 @@ export const addBillingAddress = async (inputBody) => {
 
     return billingResult;
 };
+
+/**
+ * Adds payment instrument to the current basket
+ * @param {Object} inputBody
+ * @returns {Promise<Object>} response
+ */
+const addPayment = async (inputBody) => {
+    // we don't explicitly update the basket here because
+    // its already updated in the createOrder function
+    const basketId = localStorage.getItem('basket_id');
+
+    const body = {
+        payment_card: {
+            number: inputBody.cardNumber,
+            security_code: inputBody.securityCode,
+            card_type: 'Visa',
+            expiration_month: Number(inputBody.expiryMonth),
+            expiration_year: Number(inputBody.expiryYear),
+        },
+        payment_method_id: inputBody.selectedMethod,
+    };
+
+    const paymentResult = await requester.post(
+        body,
+        `/baskets/${basketId}/payment_instruments`
+    );
+
+    return paymentResult;
+};
+
+/**
+ * Creates a new order in SFCC
+ * @param {Object} inputBody
+ * @returns {Promise<String>} Order Number
+ */
+export const createOrder = async (inputBody) => {
+    await getBasket();
+    const basketId = localStorage.getItem('basket_id');
+
+    await addPayment(inputBody);
+
+    const body = {
+        basket_id: basketId,
+    };
+    const orderResult = await requester.post(body, '/orders');
+
+    return orderResult.order_no;
+};

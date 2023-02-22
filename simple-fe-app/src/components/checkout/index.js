@@ -6,18 +6,25 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 
 import BillingForm from '../forms/billing-form';
+import PaymentForm from '../forms/payment-form';
 
 const steps = [
     {
         label: 'Billing Address',
-        component: (handleNext) => <BillingForm handleNext={handleNext} />,
+        component: ({ handleNext }) => <BillingForm handleNext={handleNext} />,
     },
-    { label: 'Payment Details', component: (handleNext) => <></> },
-    { label: 'Order Confirmation', component: () => <></> },
+    {
+        label: 'Payment Details',
+        component: ({ handleNext, setOrderId }) => (
+            <PaymentForm handleNext={handleNext} setOrderId={setOrderId} />
+        ),
+    },
+    { label: 'Order Confirmation', component: ({ orderId }) => <></> },
 ];
 
 const Checkout = () => {
     const [activeStep, setActiveStep] = useState(0);
+    const [orderId, setOrderId] = useState('');
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -34,7 +41,13 @@ const Checkout = () => {
                     );
                 })}
             </Stepper>
-            <>{steps[activeStep].component(handleNext)}</>
+            <>
+                {steps[activeStep].component({
+                    handleNext,
+                    orderId,
+                    setOrderId,
+                })}
+            </>
         </Box>
     );
 };
