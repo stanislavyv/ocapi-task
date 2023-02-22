@@ -1,11 +1,11 @@
 import { useProduct } from '../../../context/ProductContext';
 
 import styled from '@mui/material/styles/styled';
-import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-const StyledProductAvailability = styled(Box)({
-    display: 'flex',
+const StyledProductAvailability = styled(Stack)({
+    flexDirection: 'row',
     flexWrap: 'nowrap',
     flexGrow: 1,
 

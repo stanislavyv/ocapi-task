@@ -1,14 +1,12 @@
 import styled from '@mui/material/styles/styled';
-import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
-const StyledProductContainer = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
+const StyledProductContainer = styled(Stack)(({ theme }) => ({
     alignItems: 'flex-start',
+    flexDirection: 'column',
 
     [theme.breakpoints.up('md')]: {
         flexDirection: 'row',
-
         marginLeft: theme.spacing(2),
         marginRight: theme.spacing(2),
     },

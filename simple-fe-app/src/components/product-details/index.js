@@ -1,14 +1,14 @@
 import { useProduct } from '../../context/ProductContext';
 
 import styled from '@mui/material/styles/styled';
-import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
 import Progress from '../progress';
 import ProductVariant from './product-variant';
 
-const StyledProductDetailsWrapper = styled(Box)({
+const StyledProductDetailsWrapper = styled(Stack)({
     height: '100%',
-    display: 'flex',
+    direction: 'row',
     justifyContent: 'center',
     alignItems: 'center',
 });

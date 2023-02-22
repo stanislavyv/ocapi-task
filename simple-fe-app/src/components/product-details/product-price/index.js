@@ -1,13 +1,12 @@
 import { useProduct } from '../../../context/ProductContext';
 
 import styled from '@mui/material/styles/styled';
-import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import AddToCart from '../add-to-cart';
 
-const StyledProductPriceWrapper = styled(Box)(({ theme }) => ({
-    display: 'flex',
+const StyledProductPriceWrapper = styled(Stack)(({ theme }) => ({
     flexWrap: 'nowrap',
 
     [theme.breakpoints.up('xs')]: {
@@ -29,14 +28,14 @@ const ProductPrice = () => {
 
     return (
         <StyledProductPriceWrapper>
-            <Box display={'flex'} flexGrow={{ xs: 2, md: 1 }}>
+            <Stack direction={'row'} flexGrow={{ xs: 2, md: 1 }}>
                 <Typography variant='h5' mr={'1rem'}>
                     Price:{' '}
                 </Typography>
                 <Typography variant='h5'>
                     &#36;{product.price.toFixed(2)}
                 </Typography>
-            </Box>
+            </Stack>
 
             <AddToCart />
         </StyledProductPriceWrapper>

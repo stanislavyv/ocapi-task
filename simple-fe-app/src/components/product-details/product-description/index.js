@@ -1,11 +1,10 @@
 import { useProduct } from '../../../context/ProductContext';
 
 import styled from '@mui/material/styles/styled';
-import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-const StyledProductDescription = styled(Box)(({ theme }) => ({
-    display: 'flex',
+const StyledProductDescription = styled(Stack)(({ theme }) => ({
     flexWrap: 'nowrap',
 
     [theme.breakpoints.up('xs')]: {
