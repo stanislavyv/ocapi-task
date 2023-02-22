@@ -163,6 +163,33 @@ export const addBillingAddress = async (inputBody) => {
 };
 
 /**
+ * Gets current basket's applicable payment methods
+ * @returns {Promise<Array>}
+ * @throws {Error}
+ */
+export const getApplicablePaymentMethods = async () => {
+    await getBasket();
+    const basketId = localStorage.getItem('basket_id');
+
+    const paymentMethodsResult = await requester.get(
+        `/baskets/${basketId}/payment_methods`
+    );
+
+    if (paymentMethodsResult.fault) {
+        throw new Error(paymentMethodsResult.fault.message);
+    }
+
+    let applicableMethods = [];
+    if (paymentMethodsResult.applicable_payment_methods) {
+        applicableMethods = paymentMethodsResult.applicable_payment_methods.map(
+            (pm) => ({ name: pm.name, id: pm.id })
+        );
+    }
+
+    return applicableMethods;
+};
+
+/**
  * Adds payment instrument to the current basket
  * @param {Object} inputBody
  * @returns {Promise<Object>} response

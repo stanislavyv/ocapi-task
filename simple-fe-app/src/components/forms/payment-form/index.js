@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
@@ -12,7 +12,10 @@ import { Formik, Form, Field } from 'formik';
 import { TextField, RadioGroup } from 'formik-mui';
 
 import * as formValidator from '../../../utils/helpers/formHelpers';
-import { createOrder } from '../../../services/orderService';
+import {
+    createOrder,
+    getApplicablePaymentMethods,
+} from '../../../services/orderService';
 import { notifyError } from '../../../utils/toast';
 
 const validateForm = (values) => {
@@ -25,13 +28,6 @@ const validateForm = (values) => {
 
     return errors;
 };
-
-const paymentMethods = [
-    {
-        label: 'Credit Card',
-        value: 'CREDIT_CARD',
-    },
-];
 
 const months = [
     '01',
@@ -51,12 +47,22 @@ const months = [
 const years = ['2023', '2024', '2025', '2026', '2027', '2028', '2029'];
 
 const PaymentForm = ({ handleNext, setOrderId }) => {
+    const [paymentMethods, setPaymentMethods] = useState([]);
+
+    useEffect(() => {
+        getApplicablePaymentMethods()
+            .then((res) => {
+                setPaymentMethods(res);
+            })
+            .catch(notifyError);
+    }, []);
+
     const initialValues = {
         cardNumber: '',
         expiryMonth: '',
         expiryYear: '',
         securityCode: '',
-        selectedMethod: paymentMethods[0].value,
+        selectedMethod: paymentMethods.length > 0 ? paymentMethods[0].id : '',
     };
 
     const handleSubmit = (values, setSubmitting) => {
@@ -70,172 +76,188 @@ const PaymentForm = ({ handleNext, setOrderId }) => {
     };
 
     return (
-        <Stack>
-            <Formik
-                initialValues={initialValues}
-                validate={(values) => validateForm(values)}
-                onSubmit={(values, { setSubmitting }) => {
-                    handleSubmit(values, setSubmitting);
-                }}
-            >
-                {({ submitForm, isSubmitting, values, setFieldValue }) => (
-                    <>
-                        <Form>
-                            <Stack
-                                spacing={1}
-                                alignItems={'center'}
-                                maxWidth={'lg'}
-                            >
-                                <Typography variant='h6' gutterBottom>
-                                    Payment Details
-                                </Typography>
-                                <Container>
-                                    <Field
-                                        component={TextField}
-                                        required
-                                        value={values.cardNumber.toString()}
-                                        onChange={(e) => {
-                                            const value = e.target.value;
-                                            if (
-                                                formValidator.validateNumber(
-                                                    value
-                                                )
-                                            )
-                                                setFieldValue(
-                                                    'cardNumber',
-                                                    value
-                                                );
-                                        }}
-                                        inputProps={{ maxLength: 19 }}
-                                        id='cardNumber'
-                                        name='cardNumber'
-                                        label='Card Number'
-                                        fullWidth
-                                        variant='standard'
-                                    />
-                                </Container>
-                                <Stack
-                                    spacing={2}
-                                    direction={{ xs: 'column', md: 'row' }}
-                                    width={'100%'}
-                                >
-                                    <Container>
-                                        <Field
-                                            component={TextField}
-                                            required
-                                            select
-                                            id='expiryMonth'
-                                            name='expiryMonth'
-                                            label='Expiry Month'
-                                            fullWidth
-                                            variant='standard'
+        <>
+            {paymentMethods.length > 0 && (
+                <Stack>
+                    <Formik
+                        initialValues={initialValues}
+                        validate={(values) => validateForm(values)}
+                        onSubmit={(values, { setSubmitting }) => {
+                            handleSubmit(values, setSubmitting);
+                        }}
+                    >
+                        {({
+                            submitForm,
+                            isSubmitting,
+                            values,
+                            setFieldValue,
+                        }) => (
+                            <>
+                                <Form>
+                                    <Stack
+                                        spacing={1}
+                                        alignItems={'center'}
+                                        maxWidth={'lg'}
+                                    >
+                                        <Typography variant='h6' gutterBottom>
+                                            Payment Details
+                                        </Typography>
+                                        <Container>
+                                            <Field
+                                                component={TextField}
+                                                required
+                                                value={values.cardNumber.toString()}
+                                                onChange={(e) => {
+                                                    const value =
+                                                        e.target.value;
+                                                    if (
+                                                        formValidator.validateNumber(
+                                                            value
+                                                        )
+                                                    )
+                                                        setFieldValue(
+                                                            'cardNumber',
+                                                            value
+                                                        );
+                                                }}
+                                                inputProps={{ maxLength: 19 }}
+                                                id='cardNumber'
+                                                name='cardNumber'
+                                                label='Card Number'
+                                                fullWidth
+                                                variant='standard'
+                                            />
+                                        </Container>
+                                        <Stack
+                                            spacing={2}
+                                            direction={{
+                                                xs: 'column',
+                                                md: 'row',
+                                            }}
+                                            width={'100%'}
                                         >
-                                            {months.map((month) => (
-                                                <MenuItem
-                                                    key={month}
-                                                    value={month}
+                                            <Container>
+                                                <Field
+                                                    component={TextField}
+                                                    required
+                                                    select
+                                                    id='expiryMonth'
+                                                    name='expiryMonth'
+                                                    label='Expiry Month'
+                                                    fullWidth
+                                                    variant='standard'
                                                 >
-                                                    {month}
-                                                </MenuItem>
-                                            ))}
-                                        </Field>
-                                    </Container>
-                                    <Container>
-                                        <Field
-                                            component={TextField}
-                                            required
-                                            select
-                                            id='expiryYear'
-                                            name='expiryYear'
-                                            label='Expiry Year'
-                                            fullWidth
-                                            variant='standard'
+                                                    {months.map((month) => (
+                                                        <MenuItem
+                                                            key={month}
+                                                            value={month}
+                                                        >
+                                                            {month}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Field>
+                                            </Container>
+                                            <Container>
+                                                <Field
+                                                    component={TextField}
+                                                    required
+                                                    select
+                                                    id='expiryYear'
+                                                    name='expiryYear'
+                                                    label='Expiry Year'
+                                                    fullWidth
+                                                    variant='standard'
+                                                >
+                                                    {years.map((year) => (
+                                                        <MenuItem
+                                                            key={year}
+                                                            value={year}
+                                                        >
+                                                            {year}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Field>
+                                            </Container>
+                                        </Stack>
+                                        <Container>
+                                            <Field
+                                                component={TextField}
+                                                required
+                                                value={values.securityCode.toString()}
+                                                onChange={(e) => {
+                                                    const value =
+                                                        e.target.value;
+                                                    if (
+                                                        formValidator.validateNumber(
+                                                            value
+                                                        )
+                                                    )
+                                                        setFieldValue(
+                                                            'securityCode',
+                                                            value
+                                                        );
+                                                }}
+                                                inputProps={{ maxLength: 3 }}
+                                                id='securityCode'
+                                                name='securityCode'
+                                                label='Security Code'
+                                                fullWidth
+                                                variant='standard'
+                                            />
+                                        </Container>
+                                    </Stack>
+                                    <Stack spacing={1} my={2} maxWidth={'lg'}>
+                                        <Typography
+                                            variant='h6'
+                                            gutterBottom
+                                            alignSelf={'center'}
                                         >
-                                            {years.map((year) => (
-                                                <MenuItem
-                                                    key={year}
-                                                    value={year}
-                                                >
-                                                    {year}
-                                                </MenuItem>
-                                            ))}
-                                        </Field>
-                                    </Container>
-                                </Stack>
-                                <Container>
-                                    <Field
-                                        component={TextField}
-                                        required
-                                        value={values.securityCode.toString()}
-                                        onChange={(e) => {
-                                            const value = e.target.value;
-                                            if (
-                                                formValidator.validateNumber(
-                                                    value
-                                                )
-                                            )
-                                                setFieldValue(
-                                                    'securityCode',
-                                                    value
-                                                );
-                                        }}
-                                        inputProps={{ maxLength: 3 }}
-                                        id='securityCode'
-                                        name='securityCode'
-                                        label='Security Code'
-                                        fullWidth
-                                        variant='standard'
-                                    />
-                                </Container>
-                            </Stack>
-                            <Stack spacing={1} my={2} maxWidth={'lg'}>
-                                <Typography
-                                    variant='h6'
-                                    gutterBottom
-                                    alignSelf={'center'}
-                                >
-                                    Payment Method
-                                </Typography>
+                                            Payment Method
+                                        </Typography>
 
-                                <Field
-                                    component={RadioGroup}
-                                    name='selectedMethod'
-                                    value={values.selectedMethod.toString()}
-                                    onChange={(e) => {
-                                        setFieldValue(
-                                            'selectedMethod',
-                                            e.target.value
-                                        );
-                                    }}
-                                >
-                                    {paymentMethods.map((pm) => (
-                                        <FormControlLabel
-                                            key={pm.value}
-                                            value={pm.value}
-                                            name={pm.value}
-                                            control={
-                                                <Radio
+                                        <Field
+                                            component={RadioGroup}
+                                            name='selectedMethod'
+                                            value={values.selectedMethod.toString()}
+                                            onChange={(e) => {
+                                                setFieldValue(
+                                                    'selectedMethod',
+                                                    e.target.value
+                                                );
+                                            }}
+                                        >
+                                            {paymentMethods.map((pm) => (
+                                                <FormControlLabel
+                                                    key={pm.id}
+                                                    value={pm.id}
+                                                    name={pm.id}
+                                                    control={
+                                                        <Radio
+                                                            disabled={
+                                                                isSubmitting
+                                                            }
+                                                        />
+                                                    }
+                                                    label={pm.name}
                                                     disabled={isSubmitting}
                                                 />
-                                            }
-                                            label={pm.label}
-                                            disabled={isSubmitting}
-                                        />
-                                    ))}
-                                </Field>
-                            </Stack>
-                        </Form>
-                        <Button
-                            onClick={submitForm}
-                            disabled={isSubmitting}
-                            sx={{ mt: 2, alignSelf: 'flex-end' }}
-                        >
-                            Place Order
-                        </Button>
-                    </>
-                )}
-            </Formik>
-        </Stack>
+                                            ))}
+                                        </Field>
+                                    </Stack>
+                                </Form>
+                                <Button
+                                    onClick={submitForm}
+                                    disabled={isSubmitting}
+                                    sx={{ mt: 2, alignSelf: 'flex-end' }}
+                                >
+                                    Place Order
+                                </Button>
+                            </>
+                        )}
+                    </Formik>
+                </Stack>
+            )}
+        </>
     );
 };
 
