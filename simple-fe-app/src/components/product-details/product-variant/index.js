@@ -9,7 +9,6 @@ import ProductSelectQuantity from '../product-quantity-select';
 import ProductAvailability from '../product-availability';
 import ProductDescription from '../product-description';
 import ProductPrice from '../product-price';
-import { notifyError } from '../../../utils/toast';
 
 const ProductVariant = () => {
     const { product } = useProduct();

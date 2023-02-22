@@ -7,6 +7,7 @@ import StepLabel from '@mui/material/StepLabel';
 
 import BillingForm from '../forms/billing-form';
 import PaymentForm from '../forms/payment-form';
+import OrderConfirmation from '../order-confirmation';
 
 const steps = [
     {
@@ -19,7 +20,10 @@ const steps = [
             <PaymentForm handleNext={handleNext} setOrderId={setOrderId} />
         ),
     },
-    { label: 'Order Confirmation', component: ({ orderId }) => <></> },
+    {
+        label: 'Order Confirmation',
+        component: ({ orderId }) => <OrderConfirmation orderId={orderId} />,
+    },
 ];
 
 const Checkout = () => {

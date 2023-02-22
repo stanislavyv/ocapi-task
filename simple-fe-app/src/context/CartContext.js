@@ -60,12 +60,17 @@ const CartProvider = ({ children }) => {
         }, 0);
     };
 
+    const emptyCart = () => {
+        dispatch({ type: 'reset' });
+    };
+
     const value = useMemo(
         () => ({
             items: cart.items,
             addToCart,
             getNumberOfItems,
             getSum,
+            emptyCart,
         }),
         [cart]
     );
