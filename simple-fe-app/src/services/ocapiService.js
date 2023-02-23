@@ -144,6 +144,22 @@ export const getProductVariations = async (pid) => {
 };
 
 /**
+ * Gets bundle product's items
+ * @param {String} pid Bundle product id
+ * @returns {Promise<Array> | null} bundled products
+ * @throws {Error}
+ */
+export const getBundledProducts = async (pid) => {
+    const bundleResult = await getApiProduct(pid, '/bundled_products');
+
+    if (bundleResult.fault) {
+        throw new Error(bundleResult.fault.messages);
+    }
+
+    return bundleResult.bundled_products;
+};
+
+/**
  * Gets a product by its id if product exists
  * @param {String} pid
  * @param {String} endpoint

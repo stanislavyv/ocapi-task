@@ -1,3 +1,5 @@
+import { useMainProduct } from '../../../context/ProductContext';
+
 import ProductContainer from '../product-container';
 import ProductImages from '../product-images';
 import ProductContentContainer from '../product-content-container';
@@ -16,6 +18,8 @@ const Product = ({
     setAvailability,
     setSelectedQty,
 }) => {
+    const mainProduct = useMainProduct();
+
     return (
         <ProductContainer>
             <ProductImages product={product} />
@@ -30,11 +34,13 @@ const Product = ({
                         setAvailability={setAvailability}
                     />
                 )}
-                <ProductSelectQuantity
-                    product={product}
-                    setAvailability={setAvailability}
-                    setSelectedQty={setSelectedQty}
-                />
+                {mainProduct.type !== 'bundle' && (
+                    <ProductSelectQuantity
+                        product={product}
+                        setAvailability={setAvailability}
+                        setSelectedQty={setSelectedQty}
+                    />
+                )}
                 <ProductAvailability product={product} />
                 <ProductDescription product={product} />
                 <ProductPrice product={product} />

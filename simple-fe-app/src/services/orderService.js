@@ -59,7 +59,7 @@ const getBasket = async () => {
         try {
             basket = await requester.get(`/baskets/${basketId}`);
             if (basket.fault) {
-                throw new Error();
+                throw new Error(basket.fault.message);
             }
         } catch (e) {
             basket = await createNewBasket();

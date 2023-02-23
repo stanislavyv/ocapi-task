@@ -6,6 +6,7 @@ import productType from './decorators/productType';
 import variationProducts from './decorators/master/variationProducts';
 import availableColors from './decorators/master/availableColors';
 import availableSizes from './decorators/master/availableSizes';
+import bundledProducts from './decorators/bundledProducts';
 
 /**
  * Gets a product's model
@@ -27,6 +28,10 @@ const getProductData = async (apiProduct) => {
         await variationProducts(product, product.id);
         availableColors(product);
         availableSizes(product);
+    }
+
+    if (product.type === 'bundle') {
+        await bundledProducts(product, product.id);
     }
 
     return product;

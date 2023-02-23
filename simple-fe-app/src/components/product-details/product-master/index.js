@@ -10,11 +10,8 @@ const reducer = (state, { type, payload }) => {
     switch (type) {
         case 'setProduct':
             return { ...payload };
-        case 'setSelectedColor':
-            return {
-                ...state,
-                selectedColor: payload,
-            };
+        case 'setSelectedQty':
+            return { ...state, selectedQty: payload };
         case 'setSelectedVariation':
             return { ...state, id: payload.id, ats: payload.ats };
         case 'setAvailability':

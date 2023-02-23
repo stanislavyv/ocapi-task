@@ -24,6 +24,8 @@ const StyledProductPriceWrapper = styled(Stack)(({ theme }) => ({
 }));
 
 const ProductPrice = ({ product }) => {
+    const mainProduct = useMainProduct();
+
     return (
         <StyledProductPriceWrapper>
             <Stack direction={'row'} flexGrow={{ xs: 2, md: 1 }}>
@@ -35,7 +37,7 @@ const ProductPrice = ({ product }) => {
                 </Typography>
             </Stack>
 
-            <AddToCart product={product} />
+            {mainProduct.type !== 'bundle' && <AddToCart product={product} />}
         </StyledProductPriceWrapper>
     );
 };

@@ -6,6 +6,7 @@ import Stack from '@mui/material/Stack';
 import Progress from '../progress';
 import ProductVariant from './product-variant';
 import ProductMaster from './product-master';
+import ProductBundle from './product-bundle';
 
 const StyledProductDetailsWrapper = styled(Stack)({
     height: '100%',
@@ -22,8 +23,10 @@ const ProductDetails = () => {
             {mainProduct ? (
                 mainProduct.type === 'variant' ? (
                     <ProductVariant pid={mainProduct.id} />
-                ) : (
+                ) : mainProduct.type === 'master' ? (
                     <ProductMaster pid={mainProduct.id} />
+                ) : (
+                    <ProductBundle pid={mainProduct.id} />
                 )
             ) : (
                 <Progress />
