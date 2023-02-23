@@ -4,6 +4,8 @@ import * as requester from './requester';
 import jwt_decode from 'jwt-decode';
 
 import productModel from '../models/product';
+import lineItemModel from '../models/lineItem';
+import variationModel from '../models/productVariation';
 
 /**
  * Gets the id of the current customer
@@ -126,6 +128,22 @@ export const getProductImages = async (pid) => {
 };
 
 /**
+ * Gets master product's variations
+ * @param {String} pid
+ * @returns {Promise<Array> | null} variation products
+ * @throws {Error}
+ */
+export const getProductVariations = async (pid) => {
+    const variationsResult = await getApiProduct(pid, '/variations');
+
+    if (variationsResult.fault) {
+        throw new Error(variationsResult.fault.messages);
+    }
+
+    return variationsResult.variants;
+};
+
+/**
  * Gets a product by its id if product exists
  * @param {String} pid
  * @param {String} endpoint
@@ -152,4 +170,26 @@ export const getApiProduct = async (pid, endpoint = '') => {
 export const getProductModel = async (pid, quantity = 1) => {
     const apiProduct = await getApiProduct(pid);
     return productModel(apiProduct, quantity);
+};
+
+/**
+ * Gets a basket item's model
+ * @param {String} pid
+ * @returns {Promise<Object>} product model
+ * @throws {Error} product not found error
+ */
+export const getLineItemModel = async (pid, quantity = 1) => {
+    const apiProduct = await getApiProduct(pid);
+    return lineItemModel(apiProduct, quantity);
+};
+
+/**
+ * Gets a product variation's model
+ * @param {String} pid
+ * @returns {Promise<Object>} product model
+ * @throws {Error} product not found error
+ */
+export const getProductVariationModel = async (pid) => {
+    const apiProduct = await getApiProduct(pid);
+    return variationModel(apiProduct);
 };

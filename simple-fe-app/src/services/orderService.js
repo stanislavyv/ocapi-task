@@ -1,5 +1,5 @@
 import * as requester from './requester';
-import { getCustomerId, getProductModel, isTokenValid } from './ocapiService';
+import { getCustomerId, getLineItemModel, isTokenValid } from './ocapiService';
 
 /**
  * Checks whether the current basket exists in current customer's baskets
@@ -84,7 +84,7 @@ export const getBasketItems = async () => {
         if (basket.product_items) {
             items = await Promise.all(
                 basket.product_items.map(async (p) => {
-                    return await getProductModel(p.product_id, p.quantity);
+                    return await getLineItemModel(p.product_id, p.quantity);
                 })
             );
         }
