@@ -1,4 +1,4 @@
-import { useProduct } from '../../../context/ProductContext';
+import { useMainProduct } from '../../../context/ProductContext';
 import { useCart } from '../../../context/CartContext';
 
 import styled from '@mui/material/styles/styled';
@@ -19,8 +19,7 @@ const StyledAddToCart = styled(Box)(({ theme }) => ({
     },
 }));
 
-const AddToCart = () => {
-    const { product } = useProduct();
+const AddToCart = ({ product }) => {
     const { addToCart } = useCart();
 
     return (

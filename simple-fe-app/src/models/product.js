@@ -12,12 +12,11 @@ import availableSizes from './decorators/master/availableSizes';
  * @param {Object} apiProduct
  * @returns {Promise<Object>} product model
  */
-const getProductData = async (apiProduct, quantity) => {
+const getProductData = async (apiProduct) => {
     const product = {};
     product.id = apiProduct.id;
     product.name = apiProduct.name;
     product.description = apiProduct.short_description;
-    product.buyQty = quantity;
 
     await productAvailability(product, product.id);
     await productImages(product, product.id);
@@ -25,7 +24,7 @@ const getProductData = async (apiProduct, quantity) => {
     productType(apiProduct, product);
 
     if (product.type === 'master') {
-        variationProducts(product, product.id);
+        await variationProducts(product, product.id);
         availableColors(product);
         availableSizes(product);
     }

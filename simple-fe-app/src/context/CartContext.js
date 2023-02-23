@@ -15,11 +15,13 @@ const reducer = (state, { type, payload }) => {
             if (product) {
                 const index = state.items.indexOf(product);
                 const newItems = [...state.items];
-                newItems[index].buyQty += payload.buyQty;
+                newItems[index].buyQty += payload.selectedQty;
 
                 return { ...state, items: newItems };
             } else {
-                return { ...state, items: [...state.items, payload] };
+                const newItem = { ...payload };
+                newItem.buyQty = payload.selectedQty;
+                return { ...state, items: [...state.items, newItem] };
             }
         case 'reset': {
             return { ...state, items: [] };
@@ -45,19 +47,34 @@ const CartProvider = ({ children }) => {
             .then(() => {
                 dispatch({ type: 'add', payload: product });
             })
-            .catch(notifyError);
+            .catch((e) => {
+                console.log(e);
+                notifyError();
+            });
     };
 
     const getNumberOfItems = () => {
-        return cart.items.reduce((acc, x) => {
-            return acc + Number(x.buyQty);
-        }, 0);
+        let count = 0;
+
+        if (cart.items) {
+            count = cart.items.reduce((acc, x) => {
+                return acc + Number(x.buyQty);
+            }, 0);
+        }
+
+        return count;
     };
 
     const getSum = () => {
-        return cart.items.reduce((acc, x) => {
-            return acc + x.buyQty * x.price;
-        }, 0);
+        let sum = 0;
+
+        if (cart.items) {
+            sum = cart.items.reduce((acc, x) => {
+                return acc + x.buyQty * x.price;
+            }, 0);
+        }
+
+        return sum;
     };
 
     const emptyCart = () => {

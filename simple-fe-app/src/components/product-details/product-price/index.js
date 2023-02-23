@@ -1,4 +1,4 @@
-import { useProduct } from '../../../context/ProductContext';
+import { useMainProduct } from '../../../context/ProductContext';
 
 import styled from '@mui/material/styles/styled';
 import Stack from '@mui/material/Stack';
@@ -23,9 +23,7 @@ const StyledProductPriceWrapper = styled(Stack)(({ theme }) => ({
     },
 }));
 
-const ProductPrice = () => {
-    const { product } = useProduct();
-
+const ProductPrice = ({ product }) => {
     return (
         <StyledProductPriceWrapper>
             <Stack direction={'row'} flexGrow={{ xs: 2, md: 1 }}>
@@ -37,7 +35,7 @@ const ProductPrice = () => {
                 </Typography>
             </Stack>
 
-            <AddToCart />
+            <AddToCart product={product} />
         </StyledProductPriceWrapper>
     );
 };

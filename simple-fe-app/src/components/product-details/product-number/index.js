@@ -1,10 +1,8 @@
-import { useProduct } from '../../../context/ProductContext';
+import { useMainProduct } from '../../../context/ProductContext';
 
 import Typography from '@mui/material/Typography';
 
-const ProductNumber = () => {
-    const { product } = useProduct();
-
+const ProductNumber = ({ product }) => {
     return (
         <Typography
             variant='body1'

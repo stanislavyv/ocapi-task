@@ -1,10 +1,11 @@
-import { useProduct } from '../../context/ProductContext';
+import { useMainProduct } from '../../context/ProductContext';
 
 import styled from '@mui/material/styles/styled';
 import Stack from '@mui/material/Stack';
 
 import Progress from '../progress';
 import ProductVariant from './product-variant';
+import ProductMaster from './product-master';
 
 const StyledProductDetailsWrapper = styled(Stack)({
     height: '100%',
@@ -14,11 +15,19 @@ const StyledProductDetailsWrapper = styled(Stack)({
 });
 
 const ProductDetails = () => {
-    const { product } = useProduct();
+    const mainProduct = useMainProduct();
 
     return (
         <StyledProductDetailsWrapper>
-            {product ? <ProductVariant /> : <Progress />}
+            {mainProduct ? (
+                mainProduct.type === 'variant' ? (
+                    <ProductVariant pid={mainProduct.id} />
+                ) : (
+                    <ProductMaster pid={mainProduct.id} />
+                )
+            ) : (
+                <Progress />
+            )}
         </StyledProductDetailsWrapper>
     );
 };

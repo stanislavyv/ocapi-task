@@ -1,4 +1,4 @@
-import { useProduct } from '../../../context/ProductContext';
+import { useMainProduct } from '../../../context/ProductContext';
 
 import styled from '@mui/material/styles/styled';
 import Box from '@mui/material/Box';
@@ -23,9 +23,7 @@ const StyledImgWrapper = styled(Box)(({ theme }) => ({
     },
 }));
 
-const ProductImages = () => {
-    const { product } = useProduct();
-
+const ProductImages = ({ product }) => {
     return (
         <StyledImgWrapper>
             <img

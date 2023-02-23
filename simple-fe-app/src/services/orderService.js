@@ -100,7 +100,7 @@ export const getBasketItems = async () => {
  * @returns {Promise<void>}
  * @throws {Error}
  */
-export const addToBasket = async (pid, quantity) => {
+export const addToBasket = async (pid, quantity = 1) => {
     await getBasket();
     const basketId = localStorage.getItem('basket_id');
 

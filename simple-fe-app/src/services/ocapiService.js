@@ -167,9 +167,9 @@ export const getApiProduct = async (pid, endpoint = '') => {
  * @returns {Promise<Object>} product model
  * @throws {Error} product not found error
  */
-export const getProductModel = async (pid, quantity = 1) => {
+export const getProductModel = async (pid) => {
     const apiProduct = await getApiProduct(pid);
-    return productModel(apiProduct, quantity);
+    return productModel(apiProduct);
 };
 
 /**

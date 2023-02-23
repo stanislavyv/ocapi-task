@@ -1,20 +1,19 @@
-import { useEffect } from 'react';
-import { useProduct } from '../../../context/ProductContext';
-
-import styled from '@mui/material/styles/styled';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import { MenuItem, TextField } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 
 const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-export default function ProductQuantitySelect() {
-    const { product, setAvailability, setBuyQty } = useProduct();
-
+export default function ProductQuantitySelect({
+    product,
+    setAvailability,
+    setSelectedQty,
+}) {
     const handleChange = (e) => {
         const qty = Number(e.target.value);
 
-        setBuyQty(qty);
+        setSelectedQty(qty);
         setAvailability(qty);
     };
 
@@ -26,7 +25,7 @@ export default function ProductQuantitySelect() {
             <TextField
                 select
                 size={'small'}
-                value={product.buyQty}
+                value={product.selectedQty}
                 onChange={handleChange}
             >
                 {values.map((v) => (

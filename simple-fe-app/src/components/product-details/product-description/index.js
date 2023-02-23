@@ -1,4 +1,4 @@
-import { useProduct } from '../../../context/ProductContext';
+import { useMainProduct } from '../../../context/ProductContext';
 
 import styled from '@mui/material/styles/styled';
 import Stack from '@mui/material/Stack';
@@ -25,9 +25,7 @@ const StyledProductDescription = styled(Stack)(({ theme }) => ({
     },
 }));
 
-const ProductDescription = () => {
-    const { product } = useProduct();
-
+const ProductDescription = ({ product }) => {
     return (
         <StyledProductDescription>
             <Typography variant='h5'>Description:</Typography>

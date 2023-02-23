@@ -1,25 +1,13 @@
-import React, { useContext, useEffect, useReducer, useMemo } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 
 import { getProductModel } from '../services/ocapiService';
+import { notifyError } from '../utils/toast';
 
 const ProductContext = React.createContext('');
 
-const reducer = (state, { type, payload }) => {
-    switch (type) {
-        case 'setProduct':
-            return { ...state, ...payload };
-        case 'setAvailability':
-            return { ...state, isAvailable: payload };
-        case 'setBuyQty':
-            return { ...state, buyQty: payload };
-        default:
-            return state;
-    }
-};
-
 const ProductProvider = ({ children }) => {
-    const [product, dispatch] = useReducer(reducer, null);
+    const [mainProduct, setMainProduct] = useState(null);
 
     const [searchParams] = useSearchParams();
     const location = useLocation();
@@ -30,15 +18,9 @@ const ProductProvider = ({ children }) => {
             const pid = searchParams.get('pid');
 
             getProductModel(pid)
-                .then((res) => {
-                    const payload = {
-                        ...res,
-                        isAvailable: res.ats > 0,
-                        buyQty: 1,
-                    };
-                    dispatch({ type: 'setProduct', payload });
-                })
-                .catch(() => {
+                .then(setMainProduct)
+                .catch((e) => {
+                    notifyError();
                     navigate('/not-found');
                 });
         } else if (!location.pathname.includes('/checkout')) {
@@ -46,31 +28,13 @@ const ProductProvider = ({ children }) => {
         }
     }, [searchParams]);
 
-    const setAvailability = (qty) => {
-        const available = product.ats > 0 && qty <= product.ats;
-        dispatch({ type: 'setAvailability', payload: available });
-    };
-
-    const setBuyQty = (qty) => {
-        dispatch({ type: 'setBuyQty', payload: qty });
-    };
-
-    const value = useMemo(
-        () => ({
-            product,
-            setAvailability,
-            setBuyQty,
-        }),
-        [product]
-    );
-
     return (
-        <ProductContext.Provider value={value}>
+        <ProductContext.Provider value={mainProduct}>
             {children}
         </ProductContext.Provider>
     );
 };
 
-export const useProduct = () => useContext(ProductContext);
+export const useMainProduct = () => useContext(ProductContext);
 
 export default ProductProvider;
