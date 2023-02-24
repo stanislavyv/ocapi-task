@@ -33,9 +33,7 @@ const OrderConfirmation = ({ orderId }) => {
 
     useEffect(() => {
         getContentAsset(CID).then((c_body) => {
-            console.log(c_body);
             const updatedBody = getUpdatedBody(c_body);
-            console.log(updatedBody);
             setContentBody(updatedBody);
         });
 

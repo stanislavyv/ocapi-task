@@ -1,37 +1,6 @@
 import * as requester from './requester';
 import * as endpoints from '../utils/endpoints';
-import { getCustomerId, getLineItemModel, isTokenValid } from './ocapiService';
-
-/**
- * Checks whether the current basket exists in current customer's baskets
- * @param {String | null} basketId
- * @returns {Promise<Boolean>}
- */
-const isBasketValid = async (basketId) => {
-    let result = false;
-    const customer_id = getCustomerId();
-
-    if (customer_id && basketId) {
-        try {
-            const basketResult = await requester.get(
-                endpoints.getCustomerBasketsURL(customer_id)
-            );
-
-            if (basketResult.baskets) {
-                for (const basket of basketResult.baskets) {
-                    if (basketId === basket.basket_id) {
-                        result = true;
-                        break;
-                    }
-                }
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    return result;
-};
+import { getLineItemModel } from './productService';
 
 /**
  * Creates a new basket in SFCC
@@ -50,22 +19,14 @@ const createNewBasket = async () => {
  */
 const getBasket = async () => {
     const basketId = localStorage.getItem('basket_id');
-    const token = localStorage.getItem('token');
-
-    const hasValidToken = isTokenValid(token);
-    const hasValidBasket = await isBasketValid(basketId);
 
     let basket = {};
-    if (basketId && hasValidToken && hasValidBasket) {
-        try {
-            basket = await requester.get(endpoints.getBasketByIdURL(basketId));
-            if (basket.fault) {
-                throw new Error(basket.fault.message);
-            }
-        } catch (e) {
-            basket = await createNewBasket();
+    try {
+        basket = await requester.get(endpoints.getBasketByIdURL(basketId));
+        if (basket.fault) {
+            throw new Error(basket.fault.message);
         }
-    } else {
+    } catch (e) {
         basket = await createNewBasket();
     }
 
