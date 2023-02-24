@@ -9,10 +9,8 @@ export default (masterProduct) => {
     if (masterProduct.variations) {
         colors = masterProduct.variations.reduce((acc, v) => {
             try {
-                const colorAlreadyAdded = Boolean(
-                    acc.find((curr) => {
-                        return curr.color === v.color;
-                    })
+                const colorAlreadyAdded = acc.some(
+                    ({ color }) => color === v.color
                 );
 
                 if (!colorAlreadyAdded) {

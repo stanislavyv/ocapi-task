@@ -69,10 +69,19 @@ const ProductBundle = ({ pid }) => {
         }
     }, [pid]);
 
+    /**
+     * Checks if all bundled products are available
+     * @param {Object} product
+     * @returns {Boolean}
+     */
     const areAllBundledProductsAvailable = (product) => {
         return product.bundledProducts.every((p) => p.ats > 0);
     };
 
+    /**
+     * Sets bundle product's availability
+     * @param {Number} selectedQty
+     */
     const setAvailability = (selectedQty) => {
         const newBuyQty = selectedQty + (product.buyQty ?? 0);
 
@@ -83,6 +92,10 @@ const ProductBundle = ({ pid }) => {
         dispatch({ type: 'setAvailability', payload: available });
     };
 
+    /**
+     * Sets product's selected quantity
+     * @param {Number} qty
+     */
     const setSelectedQty = (qty) => {
         dispatch({ type: 'setSelectedQty', payload: qty });
     };

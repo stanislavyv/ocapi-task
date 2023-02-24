@@ -1,5 +1,8 @@
 import { createTheme } from '@mui/material';
 
+/**
+ * Creates new MUI theme
+ */
 export default () => {
     const theme = createTheme({
         palette: {
