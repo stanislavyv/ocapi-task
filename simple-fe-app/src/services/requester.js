@@ -1,4 +1,5 @@
 import ocapiConfig from '../config/ocapi.json';
+import * as endpoints from '../utils/endpoints';
 import { getAccessToken } from './ocapiService';
 
 /**
@@ -9,8 +10,6 @@ import { getAccessToken } from './ocapiService';
  * @returns {Promise}
  */
 const makeRequest = async function (method, endpoint, body) {
-    let baseUrl = `${ocapiConfig.HOST}/s/Sites-${ocapiConfig.SITES.REFARCH}-Site/dw/shop/${ocapiConfig.OCAPI_VERSION}/`;
-
     const request = {
         method,
         headers: {
@@ -25,7 +24,7 @@ const makeRequest = async function (method, endpoint, body) {
         request.body = JSON.stringify(body);
     }
 
-    const res = await fetch(`${baseUrl}${endpoint}`, request);
+    const res = await fetch(`${endpoints.BASE_URL}${endpoint}`, request);
     const data = res.json();
 
     return data;

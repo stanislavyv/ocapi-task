@@ -1,4 +1,5 @@
 import * as requester from './requester';
+import * as endpoints from '../utils/endpoints';
 import { getCustomerId, getLineItemModel, isTokenValid } from './ocapiService';
 
 /**
@@ -13,7 +14,7 @@ const isBasketValid = async (basketId) => {
     if (customer_id && basketId) {
         try {
             const basketResult = await requester.get(
-                `/customers/${customer_id}/baskets`
+                endpoints.getCustomerBasketsURL(customer_id)
             );
 
             if (basketResult.baskets) {
@@ -37,7 +38,7 @@ const isBasketValid = async (basketId) => {
  * @returns {Promise<Object>} basket
  */
 const createNewBasket = async () => {
-    const basket = await requester.post(null, '/baskets');
+    const basket = await requester.post(null, endpoints.BASKETS);
     localStorage.setItem('basket_id', basket.basket_id);
 
     return basket;
@@ -57,7 +58,7 @@ const getBasket = async () => {
     let basket = {};
     if (basketId && hasValidToken && hasValidBasket) {
         try {
-            basket = await requester.get(`/baskets/${basketId}`);
+            basket = await requester.get(endpoints.getBasketByIdURL(basketId));
             if (basket.fault) {
                 throw new Error(basket.fault.message);
             }
@@ -106,7 +107,10 @@ export const addToBasket = async (pid, quantity = 1) => {
 
     const body = [{ product_id: pid, quantity }];
 
-    const res = await requester.post(body, `/baskets/${basketId}/items`);
+    const res = await requester.post(
+        body,
+        endpoints.getAddToBasketURL(basketId)
+    );
     if (res.fault) {
         throw new Error(res.fault.message);
     }
@@ -125,7 +129,7 @@ const addShippingMethod = async (shipmentId, shippingMethodId) => {
 
     return await requester.update(
         { id: shippingMethodId },
-        `/baskets/${basketId}/shipments/${shipmentId}/shipping_method`
+        endpoints.getAddShippingMethodURL(basketId, shipmentId)
     );
 };
 
@@ -149,7 +153,7 @@ export const addBillingAddress = async (inputBody) => {
 
     const billingResult = await requester.update(
         body,
-        `/baskets/${basketId}/billing_address?use_as_shipping=true`
+        endpoints.getAddBillingAddressURL(basketId)
     );
 
     if (billingResult.fault) {
@@ -172,7 +176,7 @@ export const getApplicablePaymentMethods = async () => {
     const basketId = localStorage.getItem('basket_id');
 
     const paymentMethodsResult = await requester.get(
-        `/baskets/${basketId}/payment_methods`
+        endpoints.getPaymentMethodsURL(basketId)
     );
 
     if (paymentMethodsResult.fault) {
@@ -213,7 +217,7 @@ const addPayment = async (inputBody) => {
 
     const paymentResult = await requester.post(
         body,
-        `/baskets/${basketId}/payment_instruments`
+        endpoints.getAddPaymentInstrumentsURL(basketId)
     );
 
     if (paymentResult.fault) {
@@ -238,7 +242,7 @@ export const createOrder = async (inputBody) => {
     const body = {
         basket_id: basketId,
     };
-    const orderResult = await requester.post(body, '/orders');
+    const orderResult = await requester.post(body, endpoints.ORDERS);
 
     if (orderResult.fault) {
         throw new Error(orderResult.fault.message);

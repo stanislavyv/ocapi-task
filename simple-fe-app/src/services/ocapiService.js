@@ -1,4 +1,5 @@
 import ocapiConfig from '../config/ocapi.json';
+import * as endpoints from '../utils/endpoints';
 import * as requester from './requester';
 
 import jwt_decode from 'jwt-decode';
@@ -51,7 +52,7 @@ export const getAccessToken = async () => {
 
     const hasValidToken = isTokenValid(currToken);
 
-    const url = `${ocapiConfig.HOST}/s/Sites-${ocapiConfig.SITES.REFARCH}-Site/dw/shop/${ocapiConfig.OCAPI_VERSION}/customers/auth`;
+    const url = endpoints.AUTH;
 
     const request = {
         method: 'POST',
@@ -90,7 +91,7 @@ export const getAccessToken = async () => {
  */
 export const getContentAsset = async (cid) => {
     try {
-        const res = await requester.get(`content/${cid}`);
+        const res = await requester.get(endpoints.getContentURL(cid));
         return res.c_body;
     } catch (e) {
         console.log(e);
@@ -104,7 +105,7 @@ export const getContentAsset = async (cid) => {
  * @throws {Error} product not found error
  */
 export const getProductPrices = async (pid) => {
-    return getApiProduct(pid, '/prices');
+    return getApiProduct(pid, endpoints.PRICES);
 };
 
 /**
@@ -114,7 +115,7 @@ export const getProductPrices = async (pid) => {
  * @throws {Error} product not found error
  */
 export const getProductAvailability = async (pid) => {
-    return getApiProduct(pid, '/availability');
+    return getApiProduct(pid, endpoints.AVAILABILITY);
 };
 
 /**
@@ -124,7 +125,7 @@ export const getProductAvailability = async (pid) => {
  * @throws {Error} product not found error
  */
 export const getProductImages = async (pid) => {
-    return getApiProduct(pid, '/images');
+    return getApiProduct(pid, endpoints.IMAGES);
 };
 
 /**
@@ -134,7 +135,10 @@ export const getProductImages = async (pid) => {
  * @throws {Error}
  */
 export const getProductVariations = async (pid) => {
-    const variationsResult = await getApiProduct(pid, '/variations');
+    const variationsResult = await getApiProduct(
+        pid,
+        endpoints.PRODUCT_VARIATIONS
+    );
 
     if (variationsResult.fault) {
         throw new Error(variationsResult.fault.messages);
@@ -150,7 +154,7 @@ export const getProductVariations = async (pid) => {
  * @throws {Error}
  */
 export const getBundledProducts = async (pid) => {
-    const bundleResult = await getApiProduct(pid, '/bundled_products');
+    const bundleResult = await getApiProduct(pid, endpoints.BUNDLED_PRODUCTS);
 
     if (bundleResult.fault) {
         throw new Error(bundleResult.fault.messages);
@@ -168,7 +172,7 @@ export const getBundledProducts = async (pid) => {
  */
 export const getApiProduct = async (pid, endpoint = '') => {
     let res;
-    res = await requester.get(`products/${pid}${endpoint}`);
+    res = await requester.get(endpoints.getAPIProductURL(pid, endpoint));
 
     if (res.fault && res.fault.type === 'ProductNotFoundException') {
         throw new Error(`Product with id ${pid} doesn't exist.`);
