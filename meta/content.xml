@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.demandware.com/xml/impex/library/2006-10-31"
+    library-id="RefArchSharedLibrary">
+
+    <content content-id="ocapi-task-footer-links">
+        <display-name xml:lang="x-default">Ocapi Task Footer Links</display-name>
+        <online-flag>true</online-flag>
+        <searchable-flag>true</searchable-flag>
+        <custom-attributes>
+            <custom-attribute attribute-id="body" xml:lang="x-default">&lt;ul&gt;&#13;
+                &lt;li&gt;&lt;a
+                href=&quot;https://www.salesforce.com/eu/&quot;&gt;Salesforce&lt;/a&gt;&#13;
+                &lt;/li&gt;&#13; &lt;li&gt;&lt;a
+                href=&quot;https://reactjs.org/&quot;&gt;React&lt;/a&gt;&#13; &lt;/li&gt;&#13;
+                &lt;li&gt;&lt;a
+                href=&quot;https://developer.salesforce.com/developer-centers/commerce-cloud&quot;&gt;Dev
+                Center&lt;/a&gt;&#13; &lt;/li&gt;&#13;&lt;/ul&gt;</custom-attribute>
+        </custom-attributes>
+        <folder-links>
+        </folder-links>
+    </content>
+
+    <content content-id="ocapi-thank-you-page">
+        <display-name xml:lang="x-default">Ocapi Thank You Page</display-name>
+        <online-flag>true</online-flag>
+        <searchable-flag>true</searchable-flag>
+        <custom-attributes>
+            <custom-attribute attribute-id="body" xml:lang="x-default">&lt;div
+                class=&quot;thank-you-wrapper&quot;&gt;&#13; &lt;h1
+                class=&quot;thank-you-title&quot;&gt;Thank you for your order&#13; &lt;span
+                class=&quot;thank-you-order-id&quot;&gt;${order ID}&lt;/span&gt;!&lt;/h1&gt;&#13;
+                &lt;h2
+                class=&quot;thank-you-body&quot;&gt;Very soon our representative will contact you to
+                confirm
+                the shipment.&lt;/h2&gt;&#13;&lt;/div&gt;</custom-attribute>
+        </custom-attributes>
+        <folder-links>
+        </folder-links>
+    </content>
+
+</library>
