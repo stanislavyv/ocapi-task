@@ -1,13 +1,15 @@
+import { useEffect, useState } from 'react';
+
 import styled from '@mui/material/styles/styled';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 
-import { useEffect, useState } from 'react';
-
+import ocapiConfig from '../../config/ocapi.json';
 import { getContentAsset } from '../../services/ocapiService';
+import createMarkup from '../../utils/createMarkup';
 
-const CID = 'ocapi-task-footer-links';
+const CID = ocapiConfig.CONTENT_IDS.FOOTER_LINKS;
 
 const StyledFooterLinks = styled(Box)({
     '& ul': {
@@ -27,10 +29,6 @@ const Footer = () => {
             setAsset(res);
         });
     }, []);
-
-    function createMarkup(asset) {
-        return { __html: `${asset}` };
-    }
 
     return (
         <Box sx={{ flexGrow: 1 }}>
