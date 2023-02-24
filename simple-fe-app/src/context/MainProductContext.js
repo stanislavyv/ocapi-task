@@ -4,9 +4,9 @@ import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { getProductModel } from '../services/ocapiService';
 import { notifyError } from '../utils/toast';
 
-const ProductContext = React.createContext('');
+const MainMainProductContext = React.createContext('');
 
-const ProductProvider = ({ children }) => {
+const MainProductProvider = ({ children }) => {
     const [mainProduct, setMainProduct] = useState(null);
 
     const [searchParams] = useSearchParams();
@@ -29,12 +29,12 @@ const ProductProvider = ({ children }) => {
     }, [searchParams]);
 
     return (
-        <ProductContext.Provider value={mainProduct}>
+        <MainMainProductContext.Provider value={mainProduct}>
             {children}
-        </ProductContext.Provider>
+        </MainMainProductContext.Provider>
     );
 };
 
-export const useMainProduct = () => useContext(ProductContext);
+export const useMainProduct = () => useContext(MainMainProductContext);
 
-export default ProductProvider;
+export default MainProductProvider;

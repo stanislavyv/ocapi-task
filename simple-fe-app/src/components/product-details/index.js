@@ -1,4 +1,4 @@
-import { useMainProduct } from '../../context/ProductContext';
+import { useMainProduct } from '../../context/MainProductContext';
 
 import styled from '@mui/material/styles/styled';
 import Stack from '@mui/material/Stack';

@@ -1,4 +1,4 @@
-import { useMainProduct } from '../../../context/ProductContext';
+import { useMainProduct } from '../../../context/MainProductContext';
 
 import ProductContainer from '../product-container';
 import ProductImages from '../product-images';
