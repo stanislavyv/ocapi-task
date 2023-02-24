@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import CssBaseline from '@mui/material/CssBaseline';
-import GlobalStyles from './globalStyles';
-import App from './app';
+import GlobalStyles from './GlobalStyles';
+import App from './App';
 
 import createTheme from './utils/createTheme';
 import { ThemeProvider } from '@mui/material';
