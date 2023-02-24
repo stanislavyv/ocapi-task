@@ -8,11 +8,7 @@ export default (masterProduct) => {
 
     if (masterProduct.variations) {
         sizes = masterProduct.variations.reduce((acc, v) => {
-            const sizeAlreadyAdded = Boolean(
-                acc.find(({ value }) => {
-                    return value === v.size;
-                })
-            );
+            const sizeAlreadyAdded = acc.some(({ value }) => value === v.size);
 
             if (!sizeAlreadyAdded) {
                 const label = v.size.slice(1);

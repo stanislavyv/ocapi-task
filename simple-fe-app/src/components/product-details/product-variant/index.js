@@ -49,6 +49,10 @@ const ProductVariant = ({ pid }) => {
         }
     }, [pid]);
 
+    /**
+     * Sets variation product's availability
+     * @param {Number} selectedQty
+     */
     const setAvailability = (selectedQty) => {
         const newBuyQty = selectedQty + (product.buyQty ?? 0);
 
@@ -56,6 +60,10 @@ const ProductVariant = ({ pid }) => {
         dispatch({ type: 'setAvailability', payload: available });
     };
 
+    /**
+     * Sets variation product's selected quantity
+     * @param {Number} qty
+     */
     const setSelectedQty = (qty) => {
         dispatch({ type: 'setSelectedQty', payload: qty });
     };

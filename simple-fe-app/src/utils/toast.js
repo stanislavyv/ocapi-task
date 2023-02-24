@@ -1,5 +1,8 @@
 import { toast } from 'react-toastify';
 
+/**
+ * Fires a toast notification on error
+ */
 export const notifyError = () => {
     toast.dismiss();
     toast.error('Error: Please try again later', {

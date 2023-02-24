@@ -42,17 +42,24 @@ const CartProvider = ({ children }) => {
         });
     }, []);
 
+    /**
+     * Adds product to current basket
+     * @param {Object} product
+     */
     const addToCart = (product) => {
         addToBasket(product.id, product.buyQty)
             .then(() => {
                 dispatch({ type: 'add', payload: product });
             })
             .catch((e) => {
-                console.log(e);
                 notifyError();
             });
     };
 
+    /**
+     * Gets current basket's number of items
+     * @returns {Number}
+     */
     const getNumberOfItems = () => {
         let count = 0;
 
@@ -65,6 +72,10 @@ const CartProvider = ({ children }) => {
         return count;
     };
 
+    /**
+     * Gets current basket's sum
+     * @returns {Number}
+     */
     const getSum = () => {
         let sum = 0;
 
@@ -77,6 +88,9 @@ const CartProvider = ({ children }) => {
         return sum;
     };
 
+    /**
+     * Empties current cart
+     */
     const emptyCart = () => {
         dispatch({ type: 'reset' });
     };

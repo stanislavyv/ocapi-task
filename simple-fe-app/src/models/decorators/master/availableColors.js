@@ -8,24 +8,18 @@ export default (masterProduct) => {
 
     if (masterProduct.variations) {
         colors = masterProduct.variations.reduce((acc, v) => {
-            try {
-                const colorAlreadyAdded = Boolean(
-                    acc.find((curr) => {
-                        return curr.color === v.color;
-                    })
-                );
+            const colorAlreadyAdded = acc.some(
+                ({ color }) => color === v.color
+            );
 
-                if (!colorAlreadyAdded) {
-                    return [
-                        ...acc,
-                        { color: v.color, refinementColor: v.refinementColor },
-                    ];
-                }
-
-                return acc;
-            } catch (e) {
-                console.log(e);
+            if (!colorAlreadyAdded) {
+                return [
+                    ...acc,
+                    { color: v.color, refinementColor: v.refinementColor },
+                ];
             }
+
+            return acc;
         }, []);
     }
 

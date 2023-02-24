@@ -54,6 +54,10 @@ const ProductMaster = ({ pid }) => {
         }
     }, [pid]);
 
+    /**
+     * Checks if master product has selected variation attributes
+     * @returns {Boolean}
+     */
     const isReadyToOrder = () => {
         if (product.hasSizeAttribute && !selectedSizeRef.current) {
             return false;
@@ -66,6 +70,10 @@ const ProductMaster = ({ pid }) => {
         return true;
     };
 
+    /**
+     * Gets selected variation product based on selected variation attributes
+     * @returns {Object} selected variation
+     */
     const getSelectedVariation = () => {
         let variationProduct = null;
 
@@ -88,6 +96,9 @@ const ProductMaster = ({ pid }) => {
         return variationProduct;
     };
 
+    /**
+     * Sets the current selected variation product
+     */
     const setSelectedVariation = () => {
         if (isReadyToOrder()) {
             const selectedVariation = getSelectedVariation();
@@ -101,6 +112,10 @@ const ProductMaster = ({ pid }) => {
         }
     };
 
+    /**
+     * Sets master product's availability
+     * @param {*} selectedQty
+     */
     const setAvailability = (selectedQty) => {
         if (!isReadyToOrder()) {
             dispatch({ type: 'setAvailability', payload: null });
@@ -113,16 +128,28 @@ const ProductMaster = ({ pid }) => {
         dispatch({ type: 'setAvailability', payload: available });
     };
 
+    /**
+     * Sets master product's selected quantity
+     * @param {Number} qty
+     */
     const setSelectedQty = (qty) => {
         dispatch({ type: 'setSelectedQty', payload: qty });
     };
 
+    /**
+     * Sets current color variation
+     * @param {String} value
+     */
     const setColor = (value) => {
         selectedColorRef.current = value;
 
         setSelectedVariation();
     };
 
+    /**
+     * Sets current size variation
+     * @param {String} value
+     */
     const setSize = (value) => {
         selectedSizeRef.current = value;
 
