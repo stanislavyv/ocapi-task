@@ -10,6 +10,8 @@ import ProductAvailability from '../product-availability';
 import ProductDescription from '../product-description';
 import ProductPrice from '../product-price';
 import ProductVariationAttributes from '../product-variation-attributes';
+import ProductActionsContainer from '../product-actions-container';
+import AddToCart from '../add-to-cart';
 
 const Product = ({
     product,
@@ -43,7 +45,12 @@ const Product = ({
                 )}
                 <ProductAvailability product={product} />
                 <ProductDescription product={product} />
-                <ProductPrice product={product} />
+                <ProductActionsContainer>
+                    <ProductPrice product={product} />
+                    {mainProduct.type !== 'bundle' && (
+                        <AddToCart product={product} />
+                    )}
+                </ProductActionsContainer>
             </ProductContentContainer>
         </ProductContainer>
     );

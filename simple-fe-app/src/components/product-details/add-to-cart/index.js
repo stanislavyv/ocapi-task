@@ -1,4 +1,3 @@
-import { useMainProduct } from '../../../context/ProductContext';
 import { useCart } from '../../../context/CartContext';
 
 import styled from '@mui/material/styles/styled';
@@ -14,7 +13,7 @@ const StyledAddToCart = styled(Box)(({ theme }) => ({
     },
 
     [theme.breakpoints.up('md')]: {
-        alignSelf: 'auto',
+        alignSelf: 'baseline',
         marginTop: theme.spacing(0),
     },
 }));
@@ -23,16 +22,18 @@ const AddToCart = ({ product }) => {
     const { addToCart } = useCart();
 
     return (
-        <StyledAddToCart>
-            <Button
-                variant='contained'
-                disabled={!product.isAvailable}
-                onClick={() => addToCart(product)}
-            >
-                <ShoppingCartIcon />
-                Add to cart
-            </Button>
-        </StyledAddToCart>
+        <>
+            <StyledAddToCart>
+                <Button
+                    variant='contained'
+                    disabled={!product.isAvailable}
+                    onClick={() => addToCart(product)}
+                >
+                    <ShoppingCartIcon />
+                    Add to cart
+                </Button>
+            </StyledAddToCart>
+        </>
     );
 };
 

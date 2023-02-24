@@ -7,6 +7,7 @@ const StyledProductContainer = styled(Stack)(({ theme }) => ({
 
     [theme.breakpoints.up('md')]: {
         flexDirection: 'row',
+        gap: theme.spacing(4),
         marginLeft: theme.spacing(2),
         marginRight: theme.spacing(2),
     },

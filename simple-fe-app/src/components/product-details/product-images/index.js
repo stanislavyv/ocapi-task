@@ -1,23 +1,27 @@
-import { useMainProduct } from '../../../context/ProductContext';
-
 import styled from '@mui/material/styles/styled';
 import Box from '@mui/material/Box';
 
 const StyledImgWrapper = styled(Box)(({ theme }) => ({
-    width: '100%',
-
-    [theme.breakpoints.up('md')]: {
-        flexBasis: '50%',
+    [theme.breakpoints.up('xs')]: {
+        alignSelf: 'center',
 
         img: {
-            maxHeight: '20rem',
+            margin: '0 auto',
+        },
+    },
+
+    [theme.breakpoints.up('md')]: {
+        alignSelf: 'baseline',
+
+        img: {
+            maxHeight: '25rem',
+            margin: 0,
         },
     },
 
     img: {
         maxWidth: '100%',
         display: 'block',
-        margin: '0 auto',
         borderRadius: '3px',
         height: 'auto',
     },
