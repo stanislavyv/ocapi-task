@@ -1,4 +1,4 @@
-import { getProductPrices } from '../../services/ocapiService';
+import { getProductPrices } from '../../services/productService';
 
 /**
  * Adds price properties to product model

@@ -1,4 +1,4 @@
-import { getProductAvailability } from '../../services/ocapiService';
+import { getProductAvailability } from '../../services/productService';
 
 /**
  * Adds availability properties to product model

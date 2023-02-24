@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from 'react';
 import { useMainProduct } from '../../../context/MainProductContext';
 
-import { getProductModel } from '../../../services/ocapiService';
+import { getProductModel } from '../../../services/productService';
 import { notifyError } from '../../../utils/toast';
 
 import Product from '../product';

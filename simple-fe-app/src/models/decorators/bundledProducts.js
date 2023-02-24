@@ -1,7 +1,7 @@
 import {
     getBundledProducts,
     getProductModel,
-} from '../../services/ocapiService';
+} from '../../services/productService';
 
 /**
  * Adds bundled products properties to product model

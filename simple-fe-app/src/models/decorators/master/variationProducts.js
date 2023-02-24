@@ -1,7 +1,7 @@
 import {
     getProductVariationModel,
     getProductVariations,
-} from '../../../services/ocapiService';
+} from '../../../services/productService';
 
 /**
  * Adds product variations properties to product model

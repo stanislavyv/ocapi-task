@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 
-import { getProductModel } from '../services/ocapiService';
+import { getProductModel } from '../services/productService';
 import { notifyError } from '../utils/toast';
 
 const MainMainProductContext = React.createContext('');

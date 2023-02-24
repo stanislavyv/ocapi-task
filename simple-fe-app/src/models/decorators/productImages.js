@@ -1,4 +1,4 @@
-import { getProductImages } from '../../services/ocapiService';
+import { getProductImages } from '../../services/productService';
 
 /**
  * Adds images properties to product model
