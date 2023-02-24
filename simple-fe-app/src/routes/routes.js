@@ -4,9 +4,9 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import CheckoutGuard from '../hoc/CheckoutGuard';
 
 import Progress from '../components/progress';
-import Checkout from '../components/checkout';
-const NotFound = lazy(() => import('../components/not-found'));
-const ProductDetails = lazy(() => import('../components/product-details'));
+import Checkout from '../pages/checkout';
+const NotFound = lazy(() => import('../pages/not-found'));
+const ProductDetails = lazy(() => import('../pages/product-details'));
 
 function AppRoutes() {
     return (

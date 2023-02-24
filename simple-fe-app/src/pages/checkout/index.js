@@ -5,9 +5,9 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 
-import BillingForm from '../forms/billing-form';
-import PaymentForm from '../forms/payment-form';
-import OrderConfirmation from '../order-confirmation';
+import BillingForm from '../../components/forms/billing-form';
+import PaymentForm from '../../components/forms/payment-form';
+import OrderConfirmation from '../../components/order-confirmation';
 
 const steps = [
     {
