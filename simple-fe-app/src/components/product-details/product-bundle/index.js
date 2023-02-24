@@ -45,7 +45,9 @@ const ProductBundle = ({ pid }) => {
                 type: 'setProduct',
                 payload: {
                     ...mainProduct,
-                    isAvailable: mainProduct.ats > 0,
+                    isAvailable:
+                        mainProduct.ats > 0 &&
+                        areAllBundledProductsAvailable(mainProduct),
                     selectedQty: 1,
                 },
             });
@@ -56,7 +58,9 @@ const ProductBundle = ({ pid }) => {
                         type: 'setProduct',
                         payload: {
                             ...res,
-                            isAvailable: res.ats > 0,
+                            isAvailable:
+                                res.ats > 0 &&
+                                areAllBundledProductsAvailable(res),
                             selectedQty: 1,
                         },
                     });
@@ -65,10 +69,17 @@ const ProductBundle = ({ pid }) => {
         }
     }, [pid]);
 
+    const areAllBundledProductsAvailable = (product) => {
+        return product.bundledProducts.every((p) => p.ats > 0);
+    };
+
     const setAvailability = (selectedQty) => {
         const newBuyQty = selectedQty + (product.buyQty ?? 0);
 
-        const available = product.ats > 0 && newBuyQty <= product.ats;
+        const available =
+            product.ats > 0 &&
+            newBuyQty <= product.ats &&
+            areAllBundledProductsAvailable(product);
         dispatch({ type: 'setAvailability', payload: available });
     };
 
