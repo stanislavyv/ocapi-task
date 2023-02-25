@@ -6,16 +6,6 @@ export const AUTH = `${BASE_URL}/customers/auth`;
 
 export const CONTENT = '/content';
 
-export const PRICES = '/prices';
-
-export const AVAILABILITY = '/availability';
-
-export const IMAGES = '/images';
-
-export const PRODUCT_VARIATIONS = '/variations';
-
-export const BUNDLED_PRODUCTS = '/bundled_products';
-
 export const PRODUCTS = '/products';
 
 export const CUSTOMERS = '/customers';
@@ -46,10 +36,11 @@ export const getContentURL = (cid) => `${CONTENT}/${cid}`;
 /**
  * Gets the endpoint for api product by id
  * @param {String} basket_id
+ * @param {String} expandString
  * @returns {String}
  */
-export const getAPIProductURL = (pid, endpoint) =>
-    `${PRODUCTS}/${pid}${endpoint}`;
+export const getAPIProductURL = (pid, expandString) =>
+    `${PRODUCTS}/${pid}?expand=${expandString}`;
 
 /**
  * Gets the endpoint for customer's baskets

@@ -19,19 +19,19 @@ const getProductData = async (apiProduct) => {
     product.name = apiProduct.name;
     product.description = apiProduct.short_description;
 
-    await productAvailability(product, product.id);
-    await productImages(product, product.id);
-    await productPrices(product, product.id);
-    productType(apiProduct, product);
+    productAvailability(product, apiProduct);
+    productImages(product, apiProduct);
+    productPrices(product, apiProduct);
+    productType(product, apiProduct);
 
     if (product.type === 'master') {
-        await variationProducts(product, product.id);
+        await variationProducts(product, apiProduct);
         availableColors(product);
         availableSizes(product);
     }
 
     if (product.type === 'bundle') {
-        await bundledProducts(product, product.id);
+        await bundledProducts(product, apiProduct);
     }
 
     return product;

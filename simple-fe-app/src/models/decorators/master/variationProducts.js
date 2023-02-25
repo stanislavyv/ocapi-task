@@ -1,21 +1,20 @@
-import {
-    getProductVariationModel,
-    getProductVariations,
-} from '../../../services/productService';
+import { getVariationProductModel } from '../../../services/productService';
 
 /**
  * Adds product variations properties to product model
  * @param {Object} product
- * @param {String} pid
+ * @param {String} apiProduct
+ * @returns {Promise<void>}
  */
-export default async (product, pid) => {
-    const apiVariations = await getProductVariations(pid);
+export default async (product, apiProduct) => {
+    console.log(apiProduct);
+    const apiVariations = apiProduct.variants;
     let variations = [];
 
     if (apiVariations) {
         variations = await Promise.all(
             apiVariations.map(async (v) => {
-                const currVariation = await getProductVariationModel(
+                const currVariation = await getVariationProductModel(
                     v.product_id
                 );
 

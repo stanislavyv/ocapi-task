@@ -1,12 +1,9 @@
-import { getProductImages } from '../../services/productService';
-
 /**
  * Adds images properties to product model
  * @param {Object} product
  * @param {String} pid
  */
-export default async (product, pid) => {
-    const apiProduct = await getProductImages(pid);
+export default (product, apiProduct) => {
     const imageGroups = apiProduct.image_groups;
 
     product.images = {};

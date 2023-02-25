@@ -1,9 +1,9 @@
 /**
  * Adds type property to product model
- * @param {Object} apiProduct
  * @param {Object} product
+ * @param {Object} apiProduct
  */
-export default (apiProduct, product) => {
+export default (product, apiProduct) => {
     let type = '';
 
     if (apiProduct.type.bundle) {

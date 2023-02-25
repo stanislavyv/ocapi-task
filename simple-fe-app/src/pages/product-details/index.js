@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 
-import { getProductModel } from '../../services/productService';
+import { getFullProductModel } from '../../services/productService';
 import { notifyError } from '../../utils/toast';
 
 import styled from '@mui/material/styles/styled';
@@ -30,7 +30,7 @@ const ProductDetails = () => {
         if (searchParams.has('pid')) {
             const pid = searchParams.get('pid');
 
-            getProductModel(pid)
+            getFullProductModel(pid)
                 .then(setProduct)
                 .catch(() => {
                     notifyError();

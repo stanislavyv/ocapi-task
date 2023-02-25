@@ -1,13 +1,10 @@
-import { getProductAvailability } from '../../services/productService';
-
 /**
  * Adds availability properties to product model
  * @param {Object} product
+ * @param {Object} apiProduct
  * @param {String} pid
  */
-export default async (product, pid) => {
-    const apiProduct = await getProductAvailability(pid);
-
+export default (product, apiProduct) => {
     product.ats = apiProduct.inventory.ats;
     product.orderable = apiProduct.inventory.orderable;
 };

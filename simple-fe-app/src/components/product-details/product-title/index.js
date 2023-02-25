@@ -1,5 +1,3 @@
-import { useMainProduct } from '../../../context/MainProductContext';
-
 import Typography from '@mui/material/Typography';
 
 const ProductTitle = ({ product }) => {
