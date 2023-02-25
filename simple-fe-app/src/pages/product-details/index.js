@@ -1,4 +1,8 @@
-import { useMainProduct } from '../../context/MainProductContext';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
+
+import { getProductModel } from '../../services/productService';
+import { notifyError } from '../../utils/toast';
 
 import styled from '@mui/material/styles/styled';
 import Stack from '@mui/material/Stack';
@@ -16,17 +20,36 @@ const StyledProductDetailsWrapper = styled(Stack)({
 });
 
 const ProductDetails = () => {
-    const mainProduct = useMainProduct();
+    const [product, setProduct] = useState(null);
+
+    const [searchParams] = useSearchParams();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (searchParams.has('pid')) {
+            const pid = searchParams.get('pid');
+
+            getProductModel(pid)
+                .then(setProduct)
+                .catch(() => {
+                    notifyError();
+                    navigate('/not-found');
+                });
+        } else if (!location.pathname.includes('/checkout')) {
+            navigate('/not-found');
+        }
+    }, [searchParams]);
 
     return (
         <StyledProductDetailsWrapper>
-            {mainProduct ? (
-                mainProduct.type === 'variant' ? (
-                    <ProductVariant inputProduct={mainProduct} />
-                ) : mainProduct.type === 'master' ? (
-                    <ProductMaster inputProduct={mainProduct} />
+            {product ? (
+                product.type === 'variant' ? (
+                    <ProductVariant inputProduct={product} />
+                ) : product.type === 'master' ? (
+                    <ProductMaster inputProduct={product} />
                 ) : (
-                    <ProductBundle inputProduct={mainProduct} />
+                    <ProductBundle inputProduct={product} />
                 )
             ) : (
                 <Progress />

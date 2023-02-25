@@ -1,5 +1,3 @@
-import { useMainProduct } from '../../../context/MainProductContext';
-
 import ProductContainer from '../product-container';
 import ProductImages from '../product-images';
 import ProductContentContainer from '../product-content-container';
@@ -20,8 +18,6 @@ const Product = ({
     setAvailability,
     setSelectedQty,
 }) => {
-    const mainProduct = useMainProduct();
-
     return (
         <ProductContainer>
             <ProductImages product={product} />
@@ -36,7 +32,7 @@ const Product = ({
                         setAvailability={setAvailability}
                     />
                 )}
-                {mainProduct.type !== 'bundle' && (
+                {!product.isBundleItem && (
                     <ProductSelectQuantity
                         product={product}
                         setAvailability={setAvailability}
@@ -47,9 +43,7 @@ const Product = ({
                 <ProductDescription product={product} />
                 <ProductActionsContainer>
                     <ProductPrice product={product} />
-                    {mainProduct.type !== 'bundle' && (
-                        <AddToCart product={product} />
-                    )}
+                    {!product.isBundleItem && <AddToCart product={product} />}
                 </ProductActionsContainer>
             </ProductContentContainer>
         </ProductContainer>
