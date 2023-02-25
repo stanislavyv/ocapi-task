@@ -47,7 +47,7 @@ const CartProvider = ({ children }) => {
      * @param {Object} product
      */
     const addToCart = (product) => {
-        addToBasket(product.id, product.buyQty)
+        addToBasket(product.id, product.selectedQty)
             .then(() => {
                 dispatch({ type: 'add', payload: product });
             })
