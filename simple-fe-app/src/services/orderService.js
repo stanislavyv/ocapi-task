@@ -40,18 +40,12 @@ const getBasket = async () => {
 export const getBasketItems = async () => {
     let items = [];
 
-    try {
-        const basket = await getBasket();
+    const basket = await getBasket();
 
-        if (basket.product_items) {
-            items = await Promise.all(
-                basket.product_items.map(async (p) => {
-                    return await getLineItemModel(p.product_id, p.quantity);
-                })
-            );
-        }
-    } catch (e) {
-        console.log(e);
+    if (basket.product_items) {
+        items = basket.product_items.map((p) => {
+            return getLineItemModel(p);
+        });
     }
 
     return items;

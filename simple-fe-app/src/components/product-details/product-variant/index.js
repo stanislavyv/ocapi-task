@@ -1,8 +1,4 @@
 import { useEffect, useReducer } from 'react';
-import { useMainProduct } from '../../../context/MainProductContext';
-
-import { getProductModel } from '../../../services/productService';
-import { notifyError } from '../../../utils/toast';
 
 import Product from '../product';
 
@@ -19,35 +15,19 @@ const reducer = (state, { type, payload }) => {
     }
 };
 
-const ProductVariant = ({ pid }) => {
+const ProductVariant = ({ inputProduct }) => {
     const [product, dispatch] = useReducer(reducer, null);
-    const mainProduct = useMainProduct();
 
     useEffect(() => {
-        if (mainProduct.type === 'variant') {
-            dispatch({
-                type: 'setProduct',
-                payload: {
-                    ...mainProduct,
-                    isAvailable: mainProduct.ats > 0,
-                    selectedQty: 1,
-                },
-            });
-        } else {
-            getProductModel(pid)
-                .then((res) => {
-                    dispatch({
-                        type: 'setProduct',
-                        payload: {
-                            ...res,
-                            isAvailable: res.ats > 0,
-                            selectedQty: 1,
-                        },
-                    });
-                })
-                .catch(notifyError);
-        }
-    }, [pid]);
+        dispatch({
+            type: 'setProduct',
+            payload: {
+                ...inputProduct,
+                isAvailable: inputProduct.ats > 0,
+                selectedQty: 1,
+            },
+        });
+    }, [inputProduct]);
 
     /**
      * Sets variation product's availability

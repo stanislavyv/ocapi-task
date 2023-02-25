@@ -22,11 +22,11 @@ const ProductDetails = () => {
         <StyledProductDetailsWrapper>
             {mainProduct ? (
                 mainProduct.type === 'variant' ? (
-                    <ProductVariant pid={mainProduct.id} />
+                    <ProductVariant inputProduct={mainProduct} />
                 ) : mainProduct.type === 'master' ? (
-                    <ProductMaster pid={mainProduct.id} />
+                    <ProductMaster inputProduct={mainProduct} />
                 ) : (
-                    <ProductBundle pid={mainProduct.id} />
+                    <ProductBundle inputProduct={mainProduct} />
                 )
             ) : (
                 <Progress />

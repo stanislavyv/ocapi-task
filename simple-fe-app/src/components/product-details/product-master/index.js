@@ -1,8 +1,4 @@
 import { useEffect, useReducer, useRef } from 'react';
-import { useMainProduct } from '../../../context/MainProductContext';
-
-import { getProductModel } from '../../../services/productService';
-import { notifyError } from '../../../utils/toast';
 
 import Product from '../product';
 
@@ -21,38 +17,22 @@ const reducer = (state, { type, payload }) => {
     }
 };
 
-const ProductMaster = ({ pid }) => {
+const ProductMaster = ({ inputProduct }) => {
     const [product, dispatch] = useReducer(reducer, null);
-    const mainProduct = useMainProduct();
 
     const selectedSizeRef = useRef(null);
     const selectedColorRef = useRef(null);
 
     useEffect(() => {
-        if (mainProduct.type === 'master') {
-            dispatch({
-                type: 'setProduct',
-                payload: {
-                    ...mainProduct,
-                    isAvailable: null,
-                    selectedQty: 1,
-                },
-            });
-        } else {
-            getProductModel(pid)
-                .then((res) => {
-                    dispatch({
-                        type: 'setProduct',
-                        payload: {
-                            ...res,
-                            isAvailable: null,
-                            selectedQty: 1,
-                        },
-                    });
-                })
-                .catch(notifyError);
-        }
-    }, [pid]);
+        dispatch({
+            type: 'setProduct',
+            payload: {
+                ...inputProduct,
+                isAvailable: null,
+                selectedQty: 1,
+            },
+        });
+    }, [inputProduct]);
 
     /**
      * Checks if master product has selected variation attributes

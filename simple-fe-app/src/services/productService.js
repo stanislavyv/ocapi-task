@@ -101,13 +101,12 @@ export const getProductModel = async (pid) => {
 
 /**
  * Gets a basket item's model
- * @param {String} pid
- * @returns {Promise<Object>} product model
+ * @param {Object} apiProduct
+ * @returns {Object} product model
  * @throws {Error} product not found error
  */
-export const getLineItemModel = async (pid, quantity = 1) => {
-    const apiProduct = await getApiProduct(pid);
-    return lineItemModel(apiProduct, quantity);
+export const getLineItemModel = (apiProduct) => {
+    return lineItemModel(apiProduct);
 };
 
 /**

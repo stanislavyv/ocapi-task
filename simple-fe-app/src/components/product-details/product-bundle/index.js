@@ -1,8 +1,4 @@
 import { useEffect, useReducer } from 'react';
-import { useMainProduct } from '../../../context/MainProductContext';
-
-import { getProductModel } from '../../../services/productService';
-import { notifyError } from '../../../utils/toast';
 
 import styled from '@mui/material/styles/styled';
 import Stack from '@mui/material/Stack';
@@ -35,39 +31,21 @@ const reducer = (state, { type, payload }) => {
     }
 };
 
-const ProductBundle = ({ pid }) => {
+const ProductBundle = ({ inputProduct }) => {
     const [product, dispatch] = useReducer(reducer, null);
-    const mainProduct = useMainProduct();
 
     useEffect(() => {
-        if (mainProduct.type === 'bundle') {
-            dispatch({
-                type: 'setProduct',
-                payload: {
-                    ...mainProduct,
-                    isAvailable:
-                        mainProduct.ats > 0 &&
-                        areAllBundledProductsAvailable(mainProduct),
-                    selectedQty: 1,
-                },
-            });
-        } else {
-            getProductModel(pid)
-                .then((res) => {
-                    dispatch({
-                        type: 'setProduct',
-                        payload: {
-                            ...res,
-                            isAvailable:
-                                res.ats > 0 &&
-                                areAllBundledProductsAvailable(res),
-                            selectedQty: 1,
-                        },
-                    });
-                })
-                .catch(notifyError);
-        }
-    }, [pid]);
+        dispatch({
+            type: 'setProduct',
+            payload: {
+                ...inputProduct,
+                isAvailable:
+                    inputProduct.ats > 0 &&
+                    areAllBundledProductsAvailable(inputProduct),
+                selectedQty: 1,
+            },
+        });
+    }, [inputProduct]);
 
     /**
      * Checks if all bundled products are available
