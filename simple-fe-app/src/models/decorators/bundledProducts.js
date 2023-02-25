@@ -16,7 +16,7 @@ export default async (product, pid) => {
         bundledProducts = await Promise.all(
             apiProducts.map(async (bp) => {
                 const currBundledProduct = await getProductModel(bp.product.id);
-
+                currBundledProduct.isBundleItem = true;
                 return currBundledProduct;
             })
         );

@@ -1,5 +1,3 @@
-import MainProductProvider from './context/MainProductContext';
-
 import AppRoutes from './routes/routes';
 
 import Header from './components/header';
@@ -13,11 +11,9 @@ function App() {
     return (
         <>
             <Header />
-            <MainProductProvider>
-                <Content>
-                    <AppRoutes />
-                </Content>
-            </MainProductProvider>
+            <Content>
+                <AppRoutes />
+            </Content>
             <Footer />
             <ToastContainer
                 limit={1}
